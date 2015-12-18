@@ -1,0 +1,29 @@
+{
+  "name": "lctv-bot",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vutran/lctv-bot.git"
+  },
+  "author": "Vu Tran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vutran/lctv-bot/issues"
+  },
+  "homepage": "https://github.com/vutran/lctv-bot#readme",
+  "devDependencies": {
+    "babel-core": "^6.3.21",
+    "babel-preset-es2015": "^6.3.13",
+    "node-xmpp-client": "^3.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^1.2.0",
+    "object-hash": "^0.9.3"
+  }
+}
