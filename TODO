@@ -1,5 +1,6 @@
 # TODO's
 
 - track user visits
+- move commands to new module
 - add commands:
  - !views - view how many times you've visited the stream
