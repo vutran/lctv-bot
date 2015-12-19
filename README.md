@@ -1,6 +1,8 @@
 # Features
 
-- Desktop notifications when someone joins
+- Desktop notifications
+ - New user joins
+ - Mentions for your username
 - Set custom welcome messages
 
 # Quick Start
@@ -33,10 +35,17 @@ Displays the link to the project.
 
 #### `!set-welcome-message <message>`
 
-Sets a new custom welcome message for users
+Sets a new custom welcome message for users that joined for the first time.
 
 **Params**
  - `%user%` - The username of the person that just joined
+
+#### `!set-welcome-back-message <message>`
+
+Sets a new custom welcome back message for users that has joined before.
+
+**Params**
+- `%user%` - The username of the person that just joined
 
 # API
 
@@ -74,3 +83,5 @@ Sets a new custom welcome message for users
 `lctv:message`
 
 `lctv:iq`
+
+`lctv:mentions`
