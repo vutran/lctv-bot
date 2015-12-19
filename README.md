@@ -29,11 +29,11 @@ Starts the Bot
 
 Displays the help.
 
-#### `!github-link`
+#### `!githubLink`
 
 Displays the link to the project.
 
-#### `!set-content <key> <value>`
+#### `!setContent <key> <value>`
 
 Updates the value for the given content string.
 
