@@ -26,6 +26,7 @@
     "dotenv": "^1.2.0",
     "moment": "^2.10.6",
     "node-notifier": "^4.4.0",
+    "node-persist": "0.0.8",
     "object-hash": "^0.9.3"
   }
 }

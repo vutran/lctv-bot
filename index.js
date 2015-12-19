@@ -1,13 +1,9 @@
-import storage from 'node-persist'
-import hash from 'object-hash'
+import Bot from './lib/Bot'
 import Client from './lib/Client'
-import Stanza from './lib/Stanza'
+import Users from './lib/Users'
 
 // Load env. vars
 require('dotenv').load()
-
-// Initialize the persistent store
-storage.initSync()
 
 // Create a new client
 let client = new Client({
@@ -15,16 +11,8 @@ let client = new Client({
   password: process.env.LCTV_PASSWORD
 })
 
-// Connect to the chat server
-client.connect()
+// Create a new users list
+let users = new Users()
 
-client.on('lctv:message', function(stanza) {
-  // retrieve the user and strip the room
-  let user = stanza.getAttr('from').replace(client.getRoom() + '/', '')
-  // retrieve the message body
-  let body = stanza.getChildText('body')
-  // if the message is not yet delivered
-  if (stanza.getChild('delay') === undefined) {
-    console.log(user + ': ' + body)
-  }
-})
+// Create a new Bot
+let bot = new Bot(client, users)

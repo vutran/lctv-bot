@@ -36,11 +36,13 @@ Displays the link to the project.
 Sets a new custom welcome message for users
 
 **Params**
- - `%user` - The username of the person that just joined
+ - `%user%` - The username of the person that just joined
 
 # API
 
 ## Client
+
+### Methods
 
 `Client.connect()`
 
@@ -48,9 +50,8 @@ Sets a new custom welcome message for users
 
 `Client.send(stanza, debug)`
 
-`Client.start()`
 
-### node-xmpp Events
+### Events
 
 `online`
 
@@ -63,9 +64,6 @@ Sets a new custom welcome message for users
 `error`
 
 `stanza`
-
-
-### Custom Events
 
 `lctv:cmd`
 
