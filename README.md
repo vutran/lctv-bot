@@ -33,19 +33,18 @@ Displays the help.
 
 Displays the link to the project.
 
-#### `!set-welcome-message <message>`
+#### `!set-content <key> <value>`
 
-Sets a new custom welcome message for users that joined for the first time.
+Updates the value for the given content string.
 
-**Params**
+**Content Keys**
+
+- **githubLink**
+- **projectInfo**
+- **welcomeMessage**
  - `%user%` - The username of the person that just joined
-
-#### `!set-welcome-back-message <message>`
-
-Sets a new custom welcome back message for users that has joined before.
-
-**Params**
-- `%user%` - The username of the person that just joined
+- **welcomeBackMessage**
+ - `%user%` - The username of the person that just joined
 
 # API
 
