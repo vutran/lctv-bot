@@ -1,0 +1,5 @@
+# TODO's
+
+- track user visits
+- add commands:
+ - !set-welcome-message <message>

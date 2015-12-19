@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "dotenv": "^1.2.0",
+    "moment": "^2.10.6",
     "object-hash": "^0.9.3"
   }
 }
