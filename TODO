@@ -1,5 +1,6 @@
 # TODO's
 
 - track user visits
+- notification when someone mentions your username
 - add commands:
- - !set-welcome-message <message>
+ - !visits - view how many times you've visited the stream
