@@ -19,5 +19,6 @@ let bot = new Bot({
   client,
   users,
   channel: process.env.LCTV_CHANNEL,
-  mentions: [process.env.LCTV_MENTIONS.split(',')]
+  mentions: process.env.LCTV_MENTIONS.split(','),
+  admins: process.env.LCTV_ADMINS.split(',')
 })
