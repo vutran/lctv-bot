@@ -42,6 +42,7 @@ Updates the value for the given content string.
 
 **Content Keys**
 
+- **botName**
 - **githubLink**
 - **projectInfo**
 - **welcomeMessage**
@@ -57,11 +58,11 @@ Updates the value for the given content string.
 
 `Client.connect()`
 
+`Client.send(stanza, debug)`
+
 `Client.join(channel)`
 
 `Client.say(message)`
-
-`Client.send(stanza, debug)`
 
 
 ### Events
