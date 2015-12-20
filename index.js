@@ -15,4 +15,9 @@ let client = new Client({
 let users = new Users()
 
 // Create a new Bot
-let bot = new Bot(client, users)
+let bot = new Bot({
+  client,
+  users,
+  channel: process.env.LCTV_CHANNEL,
+  mentions: [process.env.LCTV_MENTIONS.split(',')]
+})
