@@ -33,17 +33,29 @@ Type `!start` in chat room.
 
 Starts the Bot
 
-#### `!help`
+#### `!help [<command>]`
 
 Displays the help.
 
 #### `!githubLink`
 
-Displays the link to the project.
+Displays the link to the bot's GitHub project.
+
+#### `!project`
+
+Display the current project information.
 
 #### `!setContent <key> <value>`
 
 Updates the value for the given content string.
+
+#### `!status <newStatus>`
+
+Set your status to "away", or "available" to enable the automatic Bot replies when someone mentions you when you are away.
+
+#### `!views`
+
+This will display how many times you have logged in to view the channel/stream.
 
 **Content Keys**
 
@@ -51,9 +63,12 @@ Updates the value for the given content string.
 - **githubLink**
 - **projectInfo**
 - **welcomeMessage**
- - `%user%` - The username of the person that just joined
+ - `%user%` - The username of the person that just joined.
 - **welcomeBackMessage**
- - `%user%` - The username of the person that just joined
+ - `%user%` - The username of the person that just joined.
+- **newFollowerMessage**
+- `%user%` - The username who just followed you.
+
 
 # API
 
@@ -94,6 +109,25 @@ Updates the value for the given content string.
 
 `lctv:iq`
 
-`lctv:mentions`
+`lctv:mentions:all`
 
-`lctv:new-follower`
+`lctv:mentions:self`
+
+`lctv:follower:error`
+
+`lctv:follower:new`
+
+`lctv:follower:run`
+
+
+## Bot
+
+### Methods
+
+`start()`
+
+`join()`
+
+`createUser()`
+
+`saveUser()`
