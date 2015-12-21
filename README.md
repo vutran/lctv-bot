@@ -3,7 +3,11 @@
 - Desktop notifications
  - New user joins
  - Mentions for your username
-- Set custom welcome messages
+ - New followers
+- Voice notifications
+ - New user joins
+ - New followers
+- (Admin) Set custom welcome messages
 
 # Quick Start
 
@@ -16,6 +20,7 @@ LCTV_PASSWORD=this_is_your_password
 LCTV_CHANNEL=this_is_the_channel_name_you_want_to_join
 LCTV_MENTIONS=a_keyword_you_want_to_listen_to_for_notifications
 LCTV_ADMINS=this_is_the_admin_username
+LCTV_FOLLOWERS_URL=this_is_the_url_to_your_followers_rss_feed
 ```
 
 Run `npm install && npm start`
@@ -90,3 +95,5 @@ Updates the value for the given content string.
 `lctv:iq`
 
 `lctv:mentions`
+
+`lctv:new-follower`

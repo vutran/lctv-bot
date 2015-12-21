@@ -1,3 +1,7 @@
 # TODOs
 
+- set status command (away, back, etc.)
+ - bot reply if the mentioned user is away
+- add ability to promote/demote user to VIP/standard
+ - add some features for VIP members
 - add more todos
