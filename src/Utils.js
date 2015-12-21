@@ -12,21 +12,28 @@ export default class Utils {
   }
 
   /**
+   * Retrieves a list of the first found command (Example: !command)
+   *
    * @param string
    * @return array
    */
   static getCommands(value) {
-    return new RegExp(/(^\![\w\d-]+)/).exec(value)
+    let commands = new RegExp(/(^\![\w\d-]+)/).exec(value)
+    return (commands && commands.length > 0) ? commands : []
   }
+
   /**
+   * Retrieves the first command as a string (Example: command)
+   *
    * @param string
    * @return string
    */
   static getCommand(value) {
     let cmds = Utils.getCommands(value)
-    if (cmds) {
+    if (cmds.length) {
       return cmds[0].substr(1)
     }
+    return ''
   }
 
   /**
@@ -35,24 +42,28 @@ export default class Utils {
    * @return array
    */
   static getMentions(value) {
-    return new RegExp(/@[\w\d]+/).exec(value) || []
+    let mentions = new RegExp(/@[\w\d]+/).exec(value) || []
+    return (mentions && mentions.length) ? mentions : []
   }
 
   /**
    * Checks if the given value was mentioned
+   * If mentions are set, checks for the specified mentioned
+   * If mentions isn't set, checks for any mentions
    *
    * @param string value
-   * @param string mentions
+   * @param string mentions     (Example: "@vutran")
    * @return bool
    */
   static hasMentions(value, mentions = '') {
     let mentionsArr = Utils.getMentions(value)
     if (mentionsArr.length) {
-      if (mentions.length) {
+      // if mentions are set
+      if (mentions) {
+        // return true if found, else false
         return mentionsArr.indexOf(mentions) > -1 ? true : false
-      } else {
-        return true
       }
+      return true
     }
     return false
   }

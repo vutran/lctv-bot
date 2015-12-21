@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
-    "lint": "eslint lib __tests__",
+    "lint": "eslint src __tests__",
     "test": "jest"
   },
   "repository": {
@@ -40,15 +40,40 @@
   },
   "jest": {
     "scriptPreprocessor": "./node_modules/babel-jest",
-    "collectCoverage": false,
+    "collectCoverage": true,
+    "collectCoverageOnlyFrom": {
+      "src/Bot/handlers.js": true,
+      "src/Bot/index.js": true,
+      "src/Client/handlers.js": true,
+      "src/Client/index.js": true,
+      "src/commands/admin/echo.js": true,
+      "src/commands/admin/index.js": true,
+      "src/commands/admin/say.js": true,
+      "src/commands/admin/setContent.js": true,
+      "src/commands/admin/start.js": true,
+      "src/commands/githubLink.js": true,
+      "src/commands/help.js": true,
+      "src/commands/index.js": true,
+      "src/commands/project.js": true,
+      "src/commands/status.js": true,
+      "src/commands/views.js": true,
+      "src/commands/website.js": true,
+      "src/Followers/handlers.js": true,
+      "src/Followers/index.js": true,
+      "src/Notifications.js": true,
+      "src/Store.js": true,
+      "src/Timer.js": true,
+      "src/User.js": true,
+      "src/Users.js": true,
+      "src/Utils.js": true,
+      "src/Voice.js": true
+    },
     "testFileExtensions": [
-      "js",
-      "es6"
+      "js"
     ],
     "moduleFileExtensions": [
       "js",
-      "json",
-      "es6"
+      "json"
     ]
   }
 }

@@ -1,8 +1,8 @@
 'use strict'
 
-import Bot from './lib/Bot'
-import Client from './lib/Client'
-import Users from './lib/Users'
+import Bot from './src/Bot'
+import Client from './src/Client'
+import Users from './src/Users'
 
 // Load env. vars
 require('dotenv').load()

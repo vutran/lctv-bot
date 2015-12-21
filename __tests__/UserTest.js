@@ -1,56 +1,60 @@
 'use strict'
 
-import './UserTestDontMock'
-import User from '../lib/User'
+import './DontMock'
+import User from '../src/User'
 
 describe('User', () => {
 
-  let user = new User('vutran', 100, 'away')
+  const user = new User('vutran', 100, 'away')
 
-  it('retrieves the username', () => {
+  it('should be an instance of User', () => {
+    expect(user).toEqual(jasmine.any(User))
+  })
+
+  it('should get the username', () => {
     expect(user.getUsername()).toBe('vutran')
   })
 
-  it('retrieves the @mention', () => {
+  it('should get the @mention', () => {
     expect(user.getMention()).toBe('@vutran')
   })
 
-  it('retrieves the view count', () => {
+  it('should get the view count', () => {
     expect(user.getViews()).toBe(100)
   })
 
-  it('sets the view count', () => {
+  it('should set the view count', () => {
     user.setViews(150)
     expect(user.getViews()).toBe(150)
   })
 
-  it('increments the view count', () => {
+  it('should increment the view count', () => {
     user.setViews(200)
     user.view()
     expect(user.getViews()).toBe(201)
   })
 
-  it('retrieves the status', () => {
+  it('should get the status', () => {
     expect(user.getStatus()).toBe('away')
   })
 
-  it('sets a new status', () => {
+  it('should set a new status', () => {
     user.setStatus('fake_status')
     expect(user.getStatus()).toBe('fake_status')
   })
 
-  it('sets the status to away', () => {
+  it('should set the status to away', () => {
     user.setAway('away')
     expect(user.getStatus()).toBe('away')
-    expect(user.isAway()).toBe(true)
-    expect(user.isAvailable()).toBe(false)
+    expect(user.isAway()).toBeTruthy()
+    expect(user.isAvailable()).toBeFalsy()
   })
 
-  it('sets the status to available', () => {
+  it('should set the status to available', () => {
     user.setAvailable('available')
     expect(user.getStatus()).toBe('available')
-    expect(user.isAway()).toBe(false)
-    expect(user.isAvailable()).toBe(true)
+    expect(user.isAway()).toBeFalsy()
+    expect(user.isAvailable()).toBeTruthy()
   })
 
 })
