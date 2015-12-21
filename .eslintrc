@@ -1,0 +1,14 @@
+{
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "rules": {
+    "strict": [2, "global"],
+    "no-trailing-spaces": 2,
+    "indent": [2, 2, {"SwitchCase": 1}]
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "jest": true
+  }
+}

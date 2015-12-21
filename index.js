@@ -1,3 +1,5 @@
+'use strict'
+
 import Bot from './lib/Bot'
 import Client from './lib/Client'
 import Users from './lib/Users'
@@ -23,3 +25,5 @@ let bot = new Bot({
   admins: process.env.LCTV_ADMINS.split(','),
   followersUrl: process.env.LCTV_FOLLOWERS_URL
 })
+
+bot.start()

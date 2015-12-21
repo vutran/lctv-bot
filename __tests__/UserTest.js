@@ -1,3 +1,5 @@
+'use strict'
+
 import './UserTestDontMock'
 import User from '../lib/User'
 
