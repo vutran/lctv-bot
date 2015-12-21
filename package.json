@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/vutran/lctv-bot#readme",
   "devDependencies": {
     "babel-core": "^6.3.21",
+    "babel-jest": "^6.0.1",
     "babel-preset-es2015": "^6.3.13",
+    "jest-cli": "^0.8.2",
     "node-xmpp-client": "^3.0.0"
   },
   "dependencies": {
@@ -31,5 +33,10 @@
     "rss-watcher": "^1.3.0",
     "say": "^0.6.0",
     "xml2js": "^0.4.15"
+  },
+  "jest": {
+    "scriptPreprocessor": "./node_modules/babel-jest",
+    "testFileExtensions": ["js", "es6"],
+    "moduleFileExtensions": ["js", "json", "es6"]
   }
 }

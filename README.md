@@ -82,6 +82,8 @@ This will display how many times you have logged in to view the channel/stream.
 
 `Client.join(channel)`
 
+`Client.ping()`
+
 `Client.say(message)`
 
 
@@ -118,6 +120,8 @@ This will display how many times you have logged in to view the channel/stream.
 `lctv:follower:new`
 
 `lctv:follower:run`
+
+`lctv:timer:tick`
 
 
 ## Bot
