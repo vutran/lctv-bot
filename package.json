@@ -27,6 +27,7 @@
     "moment": "^2.10.6",
     "node-notifier": "^4.4.0",
     "node-persist": "0.0.8",
-    "object-hash": "^0.9.3"
+    "object-hash": "^0.9.3",
+    "say": "^0.6.0"
   }
 }
