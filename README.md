@@ -132,12 +132,18 @@ This will display how many times you have logged in to view the channel/stream.
 
 `join()`
 
-`createUser()`
+`createUser(username)`
 
-`saveUser()`
+`saveUser(user)`
+
+`setContent(key, value)`
+
+`getContent(key)`
+
+`createCommand(cmd, description, handler)`
 
 # Plugins
 
-### `FollowersPlugin`
+### `EchoPlugin`
 
-### `TestPlugin`
+### `FollowersPlugin`

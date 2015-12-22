@@ -2,4 +2,7 @@
 
 - add ability to promote/demote user to VIP/standard
  - add some features for VIP members
+- write test
+- refactor some features as a plugin
+- write docs
 - add more todos

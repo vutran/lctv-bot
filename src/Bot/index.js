@@ -1,16 +1,17 @@
 'use strict'
 
+import EventEmitter from 'events'
 import Users from '../Users'
 import User from '../User'
 import Store from '../Store'
 import Notifications from '../Notifications'
 import Timer from '../Timer'
+import Command from '../Command'
 
 // import handlers
 import {
   handleTimerTick,
   handleOnline,
-  handleCommands,
   handleAdminCommands,
   handleInitialPresence,
   handleUnavailablePresence,
@@ -19,7 +20,7 @@ import {
   handleSelfMentions
 } from './handlers'
 
-export default class Bot {
+export default class Bot extends EventEmitter {
 
   /**
    * @param object config
@@ -30,6 +31,7 @@ export default class Bot {
    * @param array config.admins           A list of admins
    */
   constructor(config) {
+    super(config)
     this.client = config.client
     this.users = config.users || new Users()
     this.setChannel(config.channel)
@@ -38,6 +40,10 @@ export default class Bot {
 
     // list of plugins
     this.plugins = (config.plugins && config.plugins.length) ? config.plugins : []
+
+    // list of stored commands
+    this.commands = []
+    this.adminCommands = []
 
     // create a timer
     this.timer = new Timer()
@@ -64,7 +70,6 @@ export default class Bot {
 
     // register custom events
     this.client.on('online', handleOnline.bind(this))
-    this.client.on('lctv:cmd', handleCommands.bind(this))
     this.client.on('lctv:cmd:admin', handleAdminCommands.bind(this))
     this.client.on('lctv:presence', handleInitialPresence.bind(this))
     this.client.on('lctv:presence', handleUnavailablePresence.bind(this))
@@ -199,7 +204,7 @@ export default class Bot {
   loadPlugins() {
     this.plugins.map((module) => {
       if (typeof module === 'function') {
-        module.call(this)
+        module.call(this, this, this.client)
       }
     })
   }
@@ -257,6 +262,38 @@ export default class Bot {
     this.userStore.set(user.getUsername(), user)
     // updates collection
     this.users.replaceByUsername(user.getUsername(), user)
+  }
+
+  /**
+   * Creates a new command and binds the command to the event
+   *
+   * @param string cmd
+   * @param string description
+   * @param function handler
+   */
+  createCommand(cmd, description, handler) {
+    // create a new Command
+    const command = new Command(cmd, description, handler)
+    this.commands.push(command)
+    this.client.on('lctv:cmd', command.exec.bind(command))
+  }
+
+  /**
+   * Creates a new admin-only command and binds the command to the event
+   *
+   * @param string cmd
+   * @param string description
+   * @param function handler
+   */
+  createAdminCommand(cmd, description, handler) {
+    // create a new Command
+    const command = new Command(cmd, description, handler)
+    this.adminCommands.push(command)
+    this.client.on('lctv:cmd:admin', command.exec.bind(command))
+  }
+
+  getCommands() {
+    return this.commands
   }
 
 }

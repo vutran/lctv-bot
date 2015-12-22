@@ -1,7 +1,6 @@
 'use strict'
 
 import EventEmitter from 'events'
-import util from 'util'
 import XMPPClient from 'node-xmpp-client'
 
 // import handlers
@@ -13,9 +12,10 @@ import {
   handleStanza
 } from './handlers'
 
-export default class Client {
+export default class Client extends EventEmitter {
 
   constructor(options = {}) {
+    super(options)
     let defaults = {
       username: '',
       password: '',
@@ -27,7 +27,6 @@ export default class Client {
     this.settings = Object.assign({}, defaults, options)
     // joined channels
     this.joinedChannels = []
-    EventEmitter.call(this)
   }
 
   getUsername() {
@@ -181,5 +180,3 @@ export default class Client {
   }
 
 }
-
-util.inherits(Client, EventEmitter)

@@ -4,10 +4,6 @@ import Utils from '../Utils'
 import Voice from '../Voice'
 import Notifications from '../Notifications'
 
-// import commands
-import { githubLink, help, project, status, views, website } from '../commands'
-import { echo, setContent, start, say } from '../commands/admin'
-
 export function handleTimerTick(tick) {
   if (tick % 5 === 0) {
     if (this.client) {
@@ -22,35 +18,6 @@ export function handleOnline() {
 }
 
 /**
- * Handles the public commands.
- *
- * @param string cmd
- * @param array args
- * @param Stanza stanza
- */
-export function handleCommands(cmd, args, stanza) {
-  switch(cmd) {
-    case 'help':
-      help.bind(this, cmd, args, stanza)()
-      break;
-    case 'githubLink':
-      githubLink.bind(this, cmd, args, stanza)()
-      break;
-    case 'project':
-      project.bind(this, cmd, args, stanza)()
-      break;
-    case 'status':
-      status.bind(this, cmd, args, stanza)()
-      break
-    case 'views':
-      views.bind(this, cmd, args, stanza)()
-      break;
-    case 'website':
-      website.bind(this, cmd, args, stanza)()
-  }
-}
-
-/**
  * Handles the admin commands.
  *
  * @param string cmd
@@ -60,16 +27,9 @@ export function handleCommands(cmd, args, stanza) {
 export function handleAdminCommands(cmd, args, stanza) {
   switch(cmd) {
     case 'start':
-      start.bind(this, cmd, args, stanza)()
+      // starts the bot
+      this.start()
       break;
-    case 'echo':
-      echo.bind(this, cmd, args, stanza)()
-      break;
-    case 'setContent':
-      setContent.bind(this, cmd, args, stanza)()
-      break;
-    case 'say':
-      say.bind(this, cmd, args, stanza)()
   }
 }
 

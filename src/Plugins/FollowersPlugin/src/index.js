@@ -20,7 +20,6 @@ export default class FollowersPlugin {
    * @param string newFollowerMessage
    */
   constructor(config) {
-    console.log('FollowersPlugin loaded')
     this.config = Object.assign({}, config)
 
     // set the followers storage device
