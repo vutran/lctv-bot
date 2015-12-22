@@ -1,34 +1,33 @@
 'use strict'
 
-import debug from 'debug'
 import Utils from '../Utils'
 
 export function handleOnline(data) {
   // emits the normal event
   this.emit('online', data)
-  // debug('handleOnline()')
+  // console.log('handleOnline()')
 }
 
 export function handleConnect(data) {
   // emits the normal event
   this.emit('connect', data)
-  // debug('handleConnect()')
+  // console.log('handleConnect()')
 }
 
 export function handleDisconnect(data) {
   // emits the normal event
   this.emit('disconnect', data)
-  // debug('handleDisconnect()')
+  // console.log('handleDisconnect()')
 }
 
 export function handleReconnect(data) {
   // emits the normal event
   this.emit('reconnect', data)
-  // debug('handleReconnect()')
+  // console.log('handleReconnect()')
 }
 
 export function handleError(error) {
-  debug(error);
+  console.error(error);
 }
 
 export function handleStanza(stanza) {

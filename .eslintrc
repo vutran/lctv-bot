@@ -4,7 +4,9 @@
   "rules": {
     "strict": [2, "global"],
     "no-trailing-spaces": 2,
-    "indent": [2, 2, {"SwitchCase": 1}]
+    "indent": [2, 2, {"SwitchCase": 1}],
+    "no-dupe-class-members": 2,
+    "no-console": 0
   },
   "env": {
     "node": true,

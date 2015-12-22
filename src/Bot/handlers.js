@@ -187,27 +187,3 @@ export function handleSelfMentions(username, stanza) {
   let message = username + ' mentioned you: ' + body
   Notifications.show(this.getContent('botName'), message)
 }
-
-/**
- * Handles new follower events from rss-watcher
- *
- * @param object item
- */
-export function handleNewFollower(item) {
-  let username = item.title
-  // if not yet in users collection
-  if (!this.followers.exists(username)) {
-    // create the user
-    let user = this.createUser(username)
-    // add to followers user collection
-    this.followers.add(username)
-    // save the followers
-    this.followers.save()
-    // set the message
-    let message = user.getUsername() + ' just followed you.'
-    // show notifications
-    this.client.say(this.getNewFollowerMessage(user))
-    Notifications.show(this.getContent('botName'), message)
-    Voice.say(this.getNewFollowerMessage(user))
-  }
-}

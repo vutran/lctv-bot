@@ -2,6 +2,5 @@
 node_modules/
 npm-debug.log
 persist/
-__tests__/
 coverage/
 .env

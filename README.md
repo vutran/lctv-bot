@@ -135,3 +135,9 @@ This will display how many times you have logged in to view the channel/stream.
 `createUser()`
 
 `saveUser()`
+
+# Plugins
+
+### `FollowersPlugin`
+
+### `TestPlugin`

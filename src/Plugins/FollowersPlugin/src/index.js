@@ -1,29 +1,43 @@
 'use strict'
 
-import { EventEmitter } from 'events'
+import EventEmitter from 'events'
 import util from 'util'
 import Watcher from 'rss-watcher'
+import Store from '../../../Store'
 
 // import handlers
-import { handleNewArticle, handleError, handleRun } from './handlers'
+import {
+  handleNewArticle,
+  handleError,
+  handleRun,
+  handleNewFollower
+} from './handlers'
 
-export default class Followers {
+export default class FollowersPlugin {
 
-  constructor(url, store) {
-    this.url = url
+  /**
+   * @param string config.url             The URL to your followers RSS feed
+   * @param string newFollowerMessage
+   */
+  constructor(config) {
+    console.log('FollowersPlugin loaded')
+    this.config = Object.assign({}, config)
 
     // set the followers storage device
-    this.store = store
+    this.store = new Store({
+      dir: 'followers'
+    })
 
     // retrieve users from store or create a new list of users
     this.users = this.store.get('list') || []
 
+
     // create the watcher
-    let watcher = new Watcher(url)
+    const watcher = new Watcher(this.config.url)
 
     // poll every 5 seconds...
     watcher.set({
-      feed: url,
+      feed: this.config.url,
       interval: 5
     })
 
@@ -31,6 +45,8 @@ export default class Followers {
     watcher.on('new article', handleNewArticle.bind(this))
     watcher.on('error', handleError.bind(this))
     watcher.run(handleRun.bind(this))
+
+    this.on('lctv:follower:new', handleNewFollower.bind(this))
 
     EventEmitter.call(this)
   }
@@ -63,10 +79,28 @@ export default class Followers {
     this.users.push(username)
   }
 
+  /**
+   * Saves the followers list to the store
+   */
   save() {
     this.store.set('list', this.getAll())
   }
 
+  /**
+   * Replaces variables:
+   *
+   * - %user%
+   *
+   * TODO: decouple bot instance
+   * @param User user
+   * @return string
+   */
+  getNewFollowerMessage(user) {
+    let bot = this.config.bot
+    let value = bot.getContent('newFollowerMessage')
+    return value.replace(/\%user\%/, user.getUsername())
+  }
+
 }
 
-util.inherits(Followers, EventEmitter)
+util.inherits(FollowersPlugin, EventEmitter)

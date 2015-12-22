@@ -1,6 +1,6 @@
 'use strict'
 
-import { EventEmitter } from 'events'
+import EventEmitter from 'events'
 import util from 'util'
 import XMPPClient from 'node-xmpp-client'
 
