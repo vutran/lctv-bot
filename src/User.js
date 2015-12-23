@@ -4,13 +4,23 @@ export default class User {
 
   constructor(username, views = 0, status = 'available') {
     this.username = username
+    this.voiceName = username
     this.views = views
     this.role = 'participant'
     this.setStatus(status)
+    this.awayMessage = ''
   }
 
   getUsername() {
     return this.username
+  }
+
+  setVoiceName(voiceName) {
+    this.voiceName = voiceName
+  }
+
+  getVoiceName() {
+    return this.voiceName
   }
 
   getMention() {
@@ -42,8 +52,23 @@ export default class User {
     return this.status
   }
 
-  setAway() {
+  /**
+   * @param string message
+   */
+  setAwayMessage(message = '') {
+    this.awayMessage = message
+  }
+
+  getAwayMessage() {
+    return this.awayMessage
+  }
+
+  /**
+   * @param string message
+   */
+  setAway(message = '') {
     this.setStatus('away')
+    this.setAwayMessage(message)
   }
 
   setAvailable() {

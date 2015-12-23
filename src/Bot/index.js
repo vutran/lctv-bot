@@ -1,5 +1,6 @@
 'use strict'
 
+import util from 'util'
 import Users from '../Users'
 import User from '../User'
 import Store from '../Store'
@@ -23,17 +24,18 @@ export default class Bot {
   /**
    * @param object config
    * @param Client config.client          An instance of Client
-   * @param Users config.users            An instance of Users
    * @param string config.channel         The name of the channel to join
    * @param array config.mentions         A list of strings to watch for
    * @param array config.admins           A list of admins
    */
   constructor(config) {
     this.client = config.client
-    this.users = config.users || new Users()
     this.setChannel(config.channel)
     this.setMentions(config.mentions)
     this.setAdmins(config.admins)
+
+    // collection of users online
+    this.users = new Users()
 
     // list of plugins
     this.plugins = (config.plugins && config.plugins.length) ? config.plugins : []
@@ -231,11 +233,17 @@ export default class Bot {
     // retrieve stored user or create new one
     const defaultData = {
       username,
+      voiceName: username,
       views: 0,
-      status: 'available'
+      status: 'available',
+      awayMessage: ''
     }
     const data = Object.assign({}, defaultData, this.userStore.get(username))
     const user = new User(data.username, data.views, data.status)
+    // set the user's voice-pronounced name
+    user.setVoiceName(data.voiceName)
+    // sets the away message
+    user.setAwayMessage(data.awayMessage)
     // set the user's role
     user.setRole(data.role || options.role || 'participant')
     return user
@@ -256,15 +264,21 @@ export default class Bot {
   /**
    * Creates a new command and binds the command to the event
    *
-   * @param string cmd
+   * @param array|string cmd        An array of strings or a string of command(s)
    * @param string description
    * @param function handler
    */
   createCommand(cmd, description, handler) {
-    // create a new Command
-    const command = new Command(cmd, description, handler)
-    this.commands.push(command)
-    this.on('lctv:cmd', command.exec.bind(command))
+    if (util.isArray(cmd)) {
+      cmd.forEach((c) => {
+        this.createCommand(c, description, handler)
+      })
+    } else {
+      // create a new Command
+      const command = new Command(cmd, description, handler)
+      this.commands.push(command)
+      this.on('lctv:cmd', command.exec.bind(command))
+    }
   }
 
   /**

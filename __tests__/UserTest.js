@@ -15,6 +15,11 @@ describe('User', () => {
     expect(user.getUsername()).toBe('vutran')
   })
 
+  it('should set the voice name', () => {
+    user.setVoiceName('vu tran')
+    expect(user.getVoiceName()).toBe('vu tran')
+  })
+
   it('should get the @mention', () => {
     expect(user.getMention()).toBe('@vutran')
   })
@@ -44,17 +49,32 @@ describe('User', () => {
   })
 
   it('should set the status to away', () => {
-    user.setAway('away')
+    user.setAway()
     expect(user.getStatus()).toBe('away')
     expect(user.isAway()).toBeTruthy()
     expect(user.isAvailable()).toBeFalsy()
   })
 
+  it('should set the away message', () => {
+    user.setAwayMessage('this is a test away message')
+    expect(user.getAwayMessage()).toBe('this is a test away message')
+  })
+
   it('should set the status to available', () => {
-    user.setAvailable('available')
+    user.setAvailable()
     expect(user.getStatus()).toBe('available')
     expect(user.isAway()).toBeFalsy()
     expect(user.isAvailable()).toBeTruthy()
+  })
+
+  it('should set the role to moderator', () => {
+    user.setRole('moderator')
+    expect(user.getRole()).toBe('moderator')
+  })
+
+  it('should set the role to participant', () => {
+    user.setRole('participant')
+    expect(user.getRole()).toBe('participant')
   })
 
 })

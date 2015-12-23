@@ -1,13 +1,15 @@
 'use strict'
 
 /**
- * Adds a new command "!help".
+ * Adds a new command "!help" or "!commands".
  *
  * Displays a list of available commands. For more information regarding a specific command, type "!help <command>"
  */
-export default function(bot, client) {
+export default function(bot) {
 
-  bot.createCommand('help', 'Displays a list of available commands. For more information regarding a specific command, type "!help <command>"', (cmd, args) => {
+  const NEED_HELP = 'Need help? Type !help for a list of commands.'
+
+  bot.createCommand(['help', 'commands'], 'Displays a list of available commands. For more information regarding a specific command, type "!help <command>"', (cmd, args) => {
     // retrieve the list of commands
     const commands = bot.getCommands()
     // filter for available commands
@@ -29,6 +31,15 @@ export default function(bot, client) {
         return '!' + command.getName()
       })
       bot.say('Commands available: ' + commandsArr.join(', '))
+      bot.say('For more information regarding a specific command, type "!help <command>"')
+    }
+  })
+
+  // Display the help message every 5 minutes
+  bot.on('lctv:timer:tick', (ticks) => {
+    // every 5 minutes
+    if (ticks % 300 === 0) {
+      bot.say(NEED_HELP)
     }
   })
 

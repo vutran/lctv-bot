@@ -1,7 +1,6 @@
 'use strict'
 
 import EventEmitter from 'events'
-import util from 'util'
 
 export default class Timer extends EventEmitter {
 
@@ -9,6 +8,14 @@ export default class Timer extends EventEmitter {
     super(tickDelay)
     this.ticks = 0
     this.tickDelay = tickDelay
+  }
+
+  getDelay() {
+    return this.tickDelay
+  }
+
+  getTicks() {
+    return this.ticks
   }
 
   tick() {

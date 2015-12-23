@@ -12,7 +12,7 @@ export default class Users {
    * @param User user
    */
   add(user) {
-    this.items.push(user)
+    this.getAll().push(user)
   }
 
   /**
@@ -20,7 +20,7 @@ export default class Users {
    */
   removeByUsername(username) {
     let i = this.getIndexByUsername(username)
-    this.items.splice(i, 1)
+    this.getAll().splice(i, 1)
   }
 
   /**
@@ -34,7 +34,7 @@ export default class Users {
     // if found
     if (i > -1) {
       // replaces the value at the given index
-      this.items[i] = user
+      this.getAll()[i] = user
     }
   }
 
@@ -45,7 +45,7 @@ export default class Users {
    */
   getIndexByUsername(username) {
     let i = -1
-    this.items.forEach((user, key) => {
+    this.getAll().forEach((user, key) => {
       if (user instanceof User && user.getUsername() === username) {
         i = key
       }
@@ -58,7 +58,7 @@ export default class Users {
   }
 
   count() {
-    return this.items.length
+    return this.getAll().length
   }
 
   /**

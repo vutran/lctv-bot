@@ -1,26 +1,11 @@
-# Quick Start
+# Create a new Client
 
-Create a `.env` file
-
+```javascript
+const client = new Client({
+  username: 'this is your LCTV username',
+  password: 'this is your LCTV password'
+})
 ```
-NODE_ENV=development
-LCTV_USERNAME=this_is_your_username
-LCTV_PASSWORD=this_is_your_password
-LCTV_CHANNEL=this_is_the_channel_name_you_want_to_join
-LCTV_MENTIONS=a_keyword_you_want_to_listen_to_for_notifications
-LCTV_ADMINS=this_is_the_admin_username
-LCTV_FOLLOWERS_URL=this_is_the_url_to_your_followers_rss_feed
-```
-
-Run `npm install && npm start`
-
-Type `!start` in chat room.
-
-# Commands
-
-#### `!start`
-
-Starts the Bot
 
 # API
 
@@ -86,11 +71,31 @@ When someone mentions your username.
 
 ## Bot
 
+```javascript
+const bot = new Bot({
+  client: client,
+  channel: 'the name of the channel you wish to join',
+  mentions: 'the username you wish to listen to for mentions',
+  admins: 'the username that can execute admin commands',
+  plugins: [] // a list of plugins to load
+})
+
+
+```
+
 ### Methods
+
+`getName()`
+
+Retrieves the name of the bot (used for desktop notifications).
 
 `start()`
 
+Starts the bot.
+
 `join()`
+
+Joins the channel.
 
 `on(event, handler)`
 
@@ -110,6 +115,8 @@ Saves the user to the user store.
 
 `setContent(key, value)`
 
+Sets the value for the given key.
+
 **Content Keys**
 
 |Key|Description|
@@ -118,58 +125,24 @@ Saves the user to the user store.
 
 `getContent(key)`
 
+Retrieves the value of the given key.
+
 `createCommand(cmd, description, handler)`
+
+Creates a new command.
 
 `getCommands()`
 
+Retrieve existing commands.
+
 `speak(message)`
+
+Speaks the message to the room (voice).
 
 `say(mesasge)`
 
+Prints the message to the room (text).
+
 `notify(message)`
 
-# Plugins
-
-### `EchoPlugin`
-
-Prints the entered message back to the room.
-
-### `GitHubPlugin`
-
-Prints the link to the GitHub repository of the project.
-
-### `HelpPlugin`
-
-Displays a list of available commands. For more information regarding a specific command, type `!help <command>`
-
-### `ProjectPlugin`
-
-Prints the project information.
-
-### `SayPlugin`
-
-Says whatever the message is to the room.
-
-### `SettingsPlugin`
-
-Sets a general setting value.
-
-### `StatusPlugin`
-
-Sets your status to "away" or "available". If away, the bot will automatically reply when the user is mentioned.
-
-### `ViewsPlugin`
-
-Display the number of times you have visited the channel.
-
-### `WebsitePlugin`
-
-Prints the link to the project web site.
-
-### `FollowersPlugin`
-
-Adds a notification when you have a new follower.
-
-### `WelcomePlugin`
-
-Adds a welcome message every time a user enters the chat room.
+Displays a desktop notification.

@@ -43,6 +43,7 @@
       "src/Bot/index.js": true,
       "src/Client/handlers.js": true,
       "src/Client/index.js": true,
+      "src/Command.js": true,
       "src/Notifications.js": true,
       "src/Store.js": true,
       "src/Timer.js": true,

@@ -2,7 +2,6 @@
 
 import Bot from './src/Bot'
 import Client from './src/Client'
-import Users from './src/Users'
 
 // import admin-only plugins
 import SettingsPlugin from './src/Plugins/Commands/SettingsPlugin'
@@ -16,9 +15,10 @@ import ProjectPlugin from './src/Plugins/Commands/ProjectPlugin'
 import StatusPlugin from './src/Plugins/Commands/StatusPlugin'
 import ViewsPlugin from './src/Plugins/Commands/ViewsPlugin'
 import WebsitePlugin from './src/Plugins/Commands/WebsitePlugin'
+import PronouncePlugin from './src/Plugins/Commands/PronouncePlugin'
 
 // import other plugins
-import WelcomePlugin from './src/Plugins/WelcomePlugin'
+import GreetPlugin from './src/Plugins/GreetPlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
 import MentionsPlugin from './src/Plugins/MentionsPlugin'
 import LiveCodingPlugin from './src/Plugins/LiveCoding'
@@ -32,13 +32,9 @@ const client = new Client({
   password: process.env.LCTV_PASSWORD
 })
 
-// Create a new users list
-const users = new Users()
-
 // Create a new Bot
 new Bot({
   client,
-  users,
   channel: process.env.LCTV_CHANNEL,
   mentions: process.env.LCTV_MENTIONS.split(','),
   admins: process.env.LCTV_ADMINS.split(','),
@@ -46,6 +42,7 @@ new Bot({
     // Admin plugins
     SettingsPlugin,
     SayPlugin,
+    PronouncePlugin,
     // Public plugins
     EchoPlugin,
     GitHubPlugin,
@@ -57,7 +54,7 @@ new Bot({
     WebsitePlugin,
     // Other plugins
     FollowersPlugin,
-    WelcomePlugin,
+    GreetPlugin,
     MentionsPlugin,
     LiveCodingPlugin
   ]

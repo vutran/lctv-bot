@@ -3,11 +3,13 @@
 import Utils from '../../../Utils'
 
 /**
- * Adds new command "!status <away|available>".
+ * Adds new command "!status <away|available> <message>".
  *
- * !status <away|avaiable>
- * !away
+ * !status <away|avaiable> <message>
+ * !away <message>
+ * !brb <message>
  * !available
+ * !back
  *
  * Sets your status to "away" or "available".
  * If away, the bot will automatically reply when the user is mentioned.
@@ -19,14 +21,15 @@ export default function(bot, client) {
    *
    * @param User user
    * @param string newStatus
+   * @param string message        If new status is away, set's the away message
    */
-  const updateStatus = (user, newStatus) => {
+  const updateStatus = (user, newStatus, message = '') => {
     const availableStatus = ['away', 'available']
     // if a valid status
     if (availableStatus.indexOf(newStatus) > -1) {
       switch(newStatus) {
         case 'away':
-          user.setAway()
+          user.setAway(message)
           break
         case 'available':
           user.setAvailable()
@@ -39,26 +42,28 @@ export default function(bot, client) {
 
   bot.createCommand('status', 'Sets your status to "away" or "available". If away, the bot will automatically reply when the user is mentioned.', (cmd, args, stanza) => {
     // retrieve the new status
-    const newStatus = args[0]
+    const newStatus = args.shift()
     if (!newStatus ) {
       // no status is set, display the help
-      bot.say('Please specify a status (Example: !status <away|available>).')
+      bot.say('Please specify a status (Example: !status <away|available> [<message>]).')
     } else {
       // retrieve the username
       const username = Utils.getUsername(stanza.getAttr('from'))
       const user = bot.createUser(username)
-      updateStatus(user, newStatus)
+      const message = args.join(' ')
+      updateStatus(user, newStatus, message)
     }
   })
 
-  bot.createCommand('away', 'Sets your status as away.', (cmd, args, stanza) => {
+  bot.createCommand(['away', 'brb'], 'Sets your status as away.', (cmd, args, stanza) => {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
     const user = bot.createUser(username)
-    updateStatus(user, 'away')
+    const message = args.join(' ')
+    updateStatus(user, 'away', message)
   })
 
-  bot.createCommand('available', 'Sets your status as available.', (cmd, args, stanza) => {
+  bot.createCommand(['available', 'back'], 'Sets your status as available.', (cmd, args, stanza) => {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
     const user = bot.createUser(username)
@@ -84,8 +89,14 @@ export default function(bot, client) {
         if (bot.users.exists(mentionedUsername)) {
           // create the mentioned user
           let mentionedUser = bot.createUser(mentionedUsername)
+          // if the user is away
           if (mentionedUser.isAway()) {
-            bot.say(mentionedUsername + ' is currently away.')
+            let awayMessage = ''
+            // if away message exists, set it
+            if (mentionedUser.getAwayMessage().length) {
+              awayMessage = ' (' + mentionedUser.getAwayMessage() + ')'
+            }
+            bot.say(mentionedUsername + ' is currently away.' + awayMessage)
           }
         }
       })
