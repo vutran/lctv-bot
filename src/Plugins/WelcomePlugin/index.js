@@ -37,7 +37,7 @@ export default function(bot, client) {
     return value.replace(/\%user\%/, user.getUsername())
   }
 
-  client.on('lctv:channel:join', (user) => {
+  bot.on('lctv:channel:join', (user) => {
     let message = getWelcomeMessage(user)
     if (user.getViews() > 0) {
       message = getWelcomeBackMessage(user)

@@ -5,6 +5,7 @@ export default class User {
   constructor(username, views = 0, status = 'available') {
     this.username = username
     this.views = views
+    this.role = 'participant'
     this.setStatus(status)
   }
 
@@ -55,6 +56,18 @@ export default class User {
 
   isAvailable() {
     return this.getStatus() === 'available' ? true : false
+  }
+
+  setRole(role) {
+    this.role = role
+  }
+
+  getRole() {
+    return this.role
+  }
+
+  isMod() {
+    return this.getRole() === 'moderator' ? true : false
   }
 
 }

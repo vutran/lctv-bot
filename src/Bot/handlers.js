@@ -79,7 +79,9 @@ export function handleNewPresence(stanza) {
   if (stanza.getAttr('type') !== "unavailable") {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
-    const user = this.createUser(username)
+    const user = this.createUser(username, {
+      role: stanza.getChild('x').getChildElements()[0].getAttr('role')
+    })
     // if not own user
     if (user.getUsername() !== this.client.getUsername()) {
       // emit the new channel join event

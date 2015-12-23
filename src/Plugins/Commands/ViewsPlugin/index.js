@@ -17,7 +17,7 @@ export default function(bot, client) {
   })
 
   // When a user joins the channel, increment the view count
-  client.on('lctv:channel:join', (user) => {
+  bot.on('lctv:channel:join', (user) => {
     // increment user view
     user.view()
     // saves the user

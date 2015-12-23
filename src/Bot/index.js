@@ -58,10 +58,10 @@ export default class Bot {
     this.content = this.store.get('content') || this.defaultContent
 
     // register custom events
-    this.client.on('online', handleOnline.bind(this))
-    this.client.on('lctv:cmd:admin', handleAdminCommands.bind(this))
-    this.client.on('lctv:presence', handleInitialPresence.bind(this))
-    this.client.on('lctv:presence', handleUnavailablePresence.bind(this))
+    this.on('online', handleOnline.bind(this))
+    this.on('lctv:cmd:admin', handleAdminCommands.bind(this))
+    this.on('lctv:presence', handleInitialPresence.bind(this))
+    this.on('lctv:presence', handleUnavailablePresence.bind(this))
 
     // load plugins
     this.loadPlugins()
@@ -184,7 +184,7 @@ export default class Bot {
   start() {
     if (!this.isStarted()) {
       this.started = true
-      this.client.on('lctv:presence', handleNewPresence.bind(this))
+      this.on('lctv:presence', handleNewPresence.bind(this))
       Notifications.show(this.getName(), 'Bot is now started!')
     }
   }
@@ -223,12 +223,22 @@ export default class Bot {
    * Loads stored data if found.
    *
    * @param string username
+   * @param object options
+   * @param string options.role         The role of the user
    * @return User
    */
-  createUser(username) {
+  createUser(username, options = {}) {
     // retrieve stored user or create new one
-    let data = this.userStore.get(username) || { username, views: 0, status: 'available' }
-    return new User(data.username, data.views, data.status)
+    const defaultData = {
+      username,
+      views: 0,
+      status: 'available'
+    }
+    const data = Object.assign({}, defaultData, this.userStore.get(username))
+    const user = new User(data.username, data.views, data.status)
+    // set the user's role
+    user.setRole(data.role || options.role || 'participant')
+    return user
   }
 
   /**
@@ -254,7 +264,7 @@ export default class Bot {
     // create a new Command
     const command = new Command(cmd, description, handler)
     this.commands.push(command)
-    this.client.on('lctv:cmd', command.exec.bind(command))
+    this.on('lctv:cmd', command.exec.bind(command))
   }
 
   /**
@@ -268,7 +278,7 @@ export default class Bot {
     // create a new Command
     const command = new Command(cmd, description, handler)
     this.adminCommands.push(command)
-    this.client.on('lctv:cmd:admin', command.exec.bind(command))
+    this.on('lctv:cmd:admin', command.exec.bind(command))
   }
 
   /**
@@ -305,6 +315,13 @@ export default class Bot {
    */
   notify(message) {
     Notifications.show(this.getName(), message)
+  }
+
+  /**
+   * Pass events down to the client
+   */
+  on(event, ...args) {
+    this.client.on(event, ...args)
   }
 
 }

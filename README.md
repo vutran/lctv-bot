@@ -92,6 +92,10 @@ When someone mentions your username.
 
 `join()`
 
+`on(event, handler)`
+
+Listen to an event, and runs the handler when emitted.
+
 `createStore(name)`
 
 Creates a new storage device

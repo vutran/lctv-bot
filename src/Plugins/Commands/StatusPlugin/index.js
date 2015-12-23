@@ -66,7 +66,7 @@ export default function(bot, client) {
   })
 
   // When a user joins the channel, make them available by default
-  client.on('lctv:channel:join', (user) => {
+  bot.on('lctv:channel:join', (user) => {
     // make user available
     user.setAvailable()
     // saves the user
@@ -74,7 +74,7 @@ export default function(bot, client) {
   })
 
   // When a user is mentioned and is away, display a notification
-  client.on('lctv:mentions:all', (username, stanza) => {
+  bot.on('lctv:mentions:all', (username, stanza) => {
     // retrieve the mentioned users
     const mentioned = Utils.getMentions(stanza.getChildText('body'))
     if (mentioned.length) {

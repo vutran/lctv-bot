@@ -38,9 +38,9 @@ export function handleStanza(stanza) {
   // if the message is not yet delivered
   if (stanza.getChild('delay') === undefined) {
     // retrieve the username
-    let username = Utils.getUsername(stanza.getAttr('from'))
+    const username = Utils.getUsername(stanza.getAttr('from'))
     // check for commands
-    let cmd = Utils.getCommand(stanza.getChildText('body'))
+    const cmd = Utils.getCommand(stanza.getChildText('body'))
     if (cmd) {
       // retrieve the arguments
       let args = stanza.getChildText('body').substr(cmd.length + 1).trim().split(' ')

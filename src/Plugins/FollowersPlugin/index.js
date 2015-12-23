@@ -100,7 +100,7 @@ export default function(bot, client) {
     }
   })
 
-  client.on('lctv:follower:new', (item) => {
+  bot.on('lctv:follower:new', (item) => {
     const username = item.title
     // if not yet in users collection
     if (!exists(username)) {
