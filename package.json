@@ -33,6 +33,8 @@
     "node-xmpp-client": "^3.0.0",
     "rss-watcher": "^1.3.0",
     "say": "^0.6.0",
+    "socket.io": "^1.3.7",
+    "websocket": "^1.0.22",
     "xml2js": "^0.4.15"
   },
   "jest": {
@@ -44,13 +46,11 @@
       "src/Client/handlers.js": true,
       "src/Client/index.js": true,
       "src/Command.js": true,
-      "src/Notifications.js": true,
       "src/Store.js": true,
       "src/Timer.js": true,
       "src/User.js": true,
       "src/Users.js": true,
-      "src/Utils.js": true,
-      "src/Voice.js": true
+      "src/Utils.js": true
     },
     "testFileExtensions": [
       "js"

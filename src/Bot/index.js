@@ -318,6 +318,15 @@ export default class Bot {
   }
 
   /**
+   * Retrieves a list of admin commands available
+   *
+   * @return array
+   */
+  getAdminCommands() {
+    return this.adminCommands
+  }
+
+  /**
    * Retrieves a list of mentions
    */
   getMentionsFromValue(value) {
