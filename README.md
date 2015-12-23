@@ -69,7 +69,11 @@ When a user joins the channel.
 
 `lctv:mentions:all`
 
+When any user is mentioned.
+
 `lctv:mentions:self`
+
+When someone mentions your username.
 
 `lctv:follower:error`
 
@@ -88,9 +92,17 @@ When a user joins the channel.
 
 `join()`
 
+`createStore(name)`
+
+Creates a new storage device
+
 `createUser(username)`
 
+Creates a new User instance (loads from the user store if already exists)
+
 `saveUser(user)`
+
+Saves the user to the user store.
 
 `setContent(key, value)`
 
@@ -106,11 +118,17 @@ When a user joins the channel.
 
 `getCommands()`
 
+`speak(message)`
+
+`say(mesasge)`
+
+`notify(message)`
+
 # Plugins
 
 ### `EchoPlugin`
 
-Prints the entered mesasge back to the room.
+Prints the entered message back to the room.
 
 ### `GitHubPlugin`
 

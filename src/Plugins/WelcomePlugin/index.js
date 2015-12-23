@@ -1,8 +1,5 @@
 'use strict'
 
-import Notifications from '../../Notifications'
-import Voice from '../../Voice'
-
 /**
  * Adds a welcome message every time a user enters the chat room.
  * - Displays a desktop notification
@@ -45,13 +42,12 @@ export default function(bot, client) {
     if (user.getViews() > 0) {
       message = getWelcomeBackMessage(user)
     }
-    // display in channel
-    client.say(message)
     // say in channel
-    Voice.say(message)
+    bot.say(message)
+    // speak in channel
+    bot.speak(message)
     // desktop notification
-    let notifMessage = user.getUsername() + ' just joined the channel.'
-    Notifications.show(bot.getName(), notifMessage)
+    bot.notify(user.getUsername() + ' just joined the channel.')
   })
 
 }

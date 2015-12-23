@@ -1,7 +1,5 @@
 'use strict'
 
-import Notifications from '../../../Notifications'
-
 /**
  * Adds a new admin-only comment "!set <key> <value>"
  *
@@ -16,7 +14,7 @@ export default function(bot) {
     // sets the content
     bot.setContent(key, value)
     // displays the notification
-    Notifications.show(bot.getName(), 'Updating content (' + key + ') to: ' + value)
+    bot.notify('Updating content (' + key + ') to: ' + value)
   })
 
 }

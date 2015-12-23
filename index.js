@@ -20,6 +20,7 @@ import WebsitePlugin from './src/Plugins/Commands/WebsitePlugin'
 // import other plugins
 import WelcomePlugin from './src/Plugins/WelcomePlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
+import MentionsPlugin from './src/Plugins/MentionsPlugin'
 
 // Load env. vars
 require('dotenv').load()
@@ -55,6 +56,7 @@ new Bot({
     WebsitePlugin,
     // Other plugins
     FollowersPlugin,
-    WelcomePlugin
+    WelcomePlugin,
+    MentionsPlugin
   ]
 })

@@ -21,14 +21,14 @@ export default function(bot, client) {
     if (args[0].length) {
       availableCommands.forEach((command) => {
         if (command.getName() === args[0]) {
-          client.say(command.getDescription())
+          bot.say(command.getDescription())
         }
       })
     } else {
       const commandsArr = availableCommands.map((command) => {
         return '!' + command.getName()
       })
-      client.say('Commands available: ' + commandsArr.join(', '))
+      bot.say('Commands available: ' + commandsArr.join(', '))
     }
   })
 

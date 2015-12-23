@@ -5,6 +5,7 @@ import Users from '../Users'
 import User from '../User'
 import Store from '../Store'
 import Notifications from '../Notifications'
+import Voice from '../Voice'
 import Timer from '../Timer'
 import Command from '../Command'
 
@@ -15,9 +16,7 @@ import {
   handleAdminCommands,
   handleInitialPresence,
   handleUnavailablePresence,
-  handleNewPresence,
-  handleAllMentions,
-  handleSelfMentions
+  handleNewPresence
 } from './handlers'
 
 export default class Bot extends EventEmitter {
@@ -50,12 +49,8 @@ export default class Bot extends EventEmitter {
     this.timer.on('lctv:timer:tick', handleTimerTick.bind(this))
 
     // create new storage device
-    this.store = new Store({
-      dir: 'general'
-    })
-    this.userStore = new Store({
-      dir: 'user'
-    })
+    this.store = this.createStore('general')
+    this.userStore = this.createStore('user')
 
     // set default values
     this.started = false
@@ -69,8 +64,6 @@ export default class Bot extends EventEmitter {
     this.client.on('lctv:cmd:admin', handleAdminCommands.bind(this))
     this.client.on('lctv:presence', handleInitialPresence.bind(this))
     this.client.on('lctv:presence', handleUnavailablePresence.bind(this))
-    this.client.on('lctv:mentions:all', handleAllMentions.bind(this))
-    this.client.on('lctv:mentions:self', handleSelfMentions.bind(this))
 
     // load plugins
     this.loadPlugins()
@@ -217,6 +210,17 @@ export default class Bot extends EventEmitter {
   }
 
   /**
+   * Creates a new storage device
+   *
+   * @param string name       A unique name of the storage device.
+   */
+  createStore(name) {
+    return new Store({
+      dir: name
+    })
+  }
+
+  /**
    * Creates a User instance from the given username.
    * Loads stored data if found.
    *
@@ -224,7 +228,7 @@ export default class Bot extends EventEmitter {
    * @return User
    */
   createUser(username) {
-    // retrieve stored view or create new one
+    // retrieve stored user or create new one
     let data = this.userStore.get(username) || { username, views: 0, status: 'available' }
     return new User(data.username, data.views, data.status)
   }
@@ -269,8 +273,40 @@ export default class Bot extends EventEmitter {
     this.client.on('lctv:cmd:admin', command.exec.bind(command))
   }
 
+  /**
+   * Retrieves a list of commands available
+   *
+   * @return array
+   */
   getCommands() {
     return this.commands
+  }
+
+  /**
+   * Speaks the message to the room (voice)
+   *
+   * @param string message
+   */
+  speak(message) {
+    Voice.say(message)
+  }
+
+  /**
+   * Prints the message to the room (text)
+   *
+   * @param string message
+   */
+  say(message) {
+    this.client.say(message)
+  }
+
+  /**
+   * Displays a desktop notification
+   *
+   * @param string message
+   */
+  notify(message) {
+    Notifications.show(this.getName(), message)
   }
 
 }

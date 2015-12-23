@@ -13,7 +13,15 @@ export default function(bot, client) {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
     const user = bot.createUser(username)
-    client.say(user.getMention() + ': You have ' + user.getViews() + ' views.')
+    bot.say(user.getMention() + ': You have ' + user.getViews() + ' views.')
+  })
+
+  // When a user joins the channel, increment the view count
+  client.on('lctv:channel:join', (user) => {
+    // increment user view
+    user.view()
+    // saves the user
+    bot.saveUser(user)
   })
 
 }

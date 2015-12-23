@@ -1,9 +1,6 @@
 'use strict'
 
 import Watcher from 'rss-watcher'
-import Store from '../../Store'
-import Notifications from '../../Notifications'
-import Voice from '../../Voice'
 
 /**
  * Adds a notification when you have a new follower.
@@ -16,9 +13,7 @@ export default function(bot, client) {
   const NEW_FOLLOWER_MESSAGE = 'Thank you for following me, %user%.'
 
   // set the followers storage device
-  const store = new Store({
-    dir: 'followers'
-  })
+  const store = bot.createStore('followers')
 
   // retrieve users from store or create a new list of users
   const users = store.get('list') || []
@@ -118,9 +113,9 @@ export default function(bot, client) {
       // set the message
       const message = user.getUsername() + ' just followed you.'
       // show notifications
-      bot.client.say(getNewFollowerMessage(user))
-      Notifications.show(bot.getName(), message)
-      Voice.say(getNewFollowerMessage(user))
+      bot.say(getNewFollowerMessage(user))
+      bot.speak(getNewFollowerMessage(user))
+      bot.notify(message)
     }
   })
 

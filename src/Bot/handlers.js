@@ -1,8 +1,6 @@
 'use strict'
 
 import Utils from '../Utils'
-import Voice from '../Voice'
-import Notifications from '../Notifications'
 
 export function handleTimerTick(tick) {
   // emit event on the client
@@ -26,7 +24,7 @@ export function handleOnline() {
  * @param array args
  * @param Stanza stanza
  */
-export function handleAdminCommands(cmd, args, stanza) {
+export function handleAdminCommands(cmd) {
   switch(cmd) {
     case 'start':
       // starts the bot
@@ -43,8 +41,8 @@ export function handleAdminCommands(cmd, args, stanza) {
  */
 export function handleInitialPresence(stanza) {
   // retrieve the username
-  let username = Utils.getUsername(stanza.getAttr('from'))
-  let user = this.createUser(username)
+  const username = Utils.getUsername(stanza.getAttr('from'))
+  const user = this.createUser(username)
   // if not yet in the users list
   if (!this.users.exists(user.getUsername())) {
     // add user to the users list
@@ -60,8 +58,8 @@ export function handleInitialPresence(stanza) {
  */
 export function handleUnavailablePresence(stanza) {
   // retrieve the username
-  let username = Utils.getUsername(stanza.getAttr('from'))
-  let user = this.createUser(username)
+  const username = Utils.getUsername(stanza.getAttr('from'))
+  const user = this.createUser(username)
   if (stanza.getAttr('type') === "unavailable") {
     // if in the users list
     if (this.users.exists(user.getUsername())) {
@@ -80,8 +78,8 @@ export function handleUnavailablePresence(stanza) {
 export function handleNewPresence(stanza) {
   if (stanza.getAttr('type') !== "unavailable") {
     // retrieve the username
-    let username = Utils.getUsername(stanza.getAttr('from'))
-    let user = this.createUser(username)
+    const username = Utils.getUsername(stanza.getAttr('from'))
+    const user = this.createUser(username)
     // if not own user
     if (user.getUsername() !== this.client.getUsername()) {
       // emit the new channel join event
@@ -91,50 +89,6 @@ export function handleNewPresence(stanza) {
         // add user to the users list
         this.users.add(user)
       }
-      // make user available
-      user.setAvailable()
-      // increment user view
-      user.view()
-      // save user data
-      this.saveUser(user)
     }
   }
-}
-
-/**
- * Handles all mentions.
- * Display notifications.
- *
- * @param string username
- * @param Stanza stanza
- */
-export function handleAllMentions(username, stanza) {
-  // retrieve the mentioned users
-  let mentioned = Utils.getMentions(stanza.getChildText('body'))
-  if (mentioned.length) {
-    mentioned.forEach((mentionedUsername) => {
-      mentionedUsername = mentionedUsername.substr(1)
-      // if mentioned username is in the users collection
-      if (this.users.exists(mentionedUsername)) {
-        // create the mentioned user
-        let mentionedUser = this.createUser(mentionedUsername)
-        if (mentionedUser.isAway()) {
-          this.client.say(mentionedUsername + ' is currently away.')
-        }
-      }
-    })
-  }
-}
-
-/**
- * Handles self mentions.
- * Display notifications.
- *
- * @param string username
- * @param Stanza stanza
- */
-export function handleSelfMentions(username, stanza) {
-  let body = stanza.getChildText('body')
-  let message = username + ' mentioned you: ' + body
-  Notifications.show(this.getName(), message)
 }

@@ -10,7 +10,7 @@ export default function(bot, client) {
   const PROJECT_INFO = bot.getContent('projectInfo') || 'Not yet available.'
 
   bot.createCommand('project', 'Prints the project information.', () => {
-    client.say(PROJECT_INFO)
+    bot.say(PROJECT_INFO)
   })
 
 }

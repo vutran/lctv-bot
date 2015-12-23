@@ -1,7 +1,5 @@
 'use strict'
 
-import Voice from '../../../Voice'
-
 /**
  * Adds a new admin-only command "!say <message>".
  *
@@ -10,7 +8,7 @@ import Voice from '../../../Voice'
 export default function(bot) {
 
   bot.createAdminCommand('say', 'Says whatever the message is to the room.', (cmd, args) => {
-    Voice.say(args.join(' '))
+    bot.speak(args.join(' '))
   })
 
 }
