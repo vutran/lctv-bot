@@ -109,6 +109,10 @@ Creates a new storage device
 
 Creates a new User instance (loads from the user store if already exists)
 
+`createUserFromStanza(stanza)`
+
+Creates a User instance from a stanza.
+
 `saveUser(user)`
 
 Saves the user to the user store.
@@ -116,6 +120,10 @@ Saves the user to the user store.
 `setContent(key, value)`
 
 Sets the value for the given key.
+
+`getMentionsFromValue(value)`
+
+Retrieves a list of mentions.
 
 **Content Keys**
 

@@ -5,7 +5,7 @@
  *
  * Prints the link to the GitHub repository of the project.
  */
-export default function(bot, client) {
+export default function(bot) {
 
   const GITHUB_LINK = bot.getContent('githubLink') || 'https://github.com/vutran/lctv-bot'
 

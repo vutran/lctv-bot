@@ -5,7 +5,7 @@
  *
  * Prints the project information.
  */
-export default function(bot, client) {
+export default function(bot) {
 
   const PROJECT_INFO = bot.getContent('projectInfo') || 'Not yet available.'
 

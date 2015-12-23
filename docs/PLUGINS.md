@@ -59,7 +59,9 @@ Writing a plugin is very easy. Take this simple Hello World plugin for example.
 The example plugin below will create a new command with `bot.createCommand()` called `!test` which will make the bot print out the given message into the room with `bot.say()`
 
 ```javascript
-export default function(bot, client) {
+
+// path/to/MyPlugin.js
+export default function(bot) {
 
   bot.createCommand('test', 'This is the description of the command.', (cmd, args, stanza) => {
     bot.say('This is printed to the channel.')

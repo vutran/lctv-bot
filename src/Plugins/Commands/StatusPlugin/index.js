@@ -1,7 +1,5 @@
 'use strict'
 
-import Utils from '../../../Utils'
-
 /**
  * Adds new command "!status <away|available> <message>".
  *
@@ -14,7 +12,7 @@ import Utils from '../../../Utils'
  * Sets your status to "away" or "available".
  * If away, the bot will automatically reply when the user is mentioned.
  */
-export default function(bot, client) {
+export default function(bot) {
 
   /**
    * Updates the given user's status
@@ -47,26 +45,23 @@ export default function(bot, client) {
       // no status is set, display the help
       bot.say('Please specify a status (Example: !status <away|available> [<message>]).')
     } else {
-      // retrieve the username
-      const username = Utils.getUsername(stanza.getAttr('from'))
-      const user = bot.createUser(username)
+      // create the User instance
+      const user = bot.createUserFromStanza(stanza)
       const message = args.join(' ')
       updateStatus(user, newStatus, message)
     }
   })
 
   bot.createCommand(['away', 'brb'], 'Sets your status as away.', (cmd, args, stanza) => {
-    // retrieve the username
-    const username = Utils.getUsername(stanza.getAttr('from'))
-    const user = bot.createUser(username)
+    // create the User instance
+    const user = bot.createUserFromStanza(stanza)
     const message = args.join(' ')
     updateStatus(user, 'away', message)
   })
 
   bot.createCommand(['available', 'back'], 'Sets your status as available.', (cmd, args, stanza) => {
-    // retrieve the username
-    const username = Utils.getUsername(stanza.getAttr('from'))
-    const user = bot.createUser(username)
+    // create the User instance
+    const user = bot.createUserFromStanza(stanza)
     updateStatus(user, 'available')
   })
 
@@ -81,7 +76,7 @@ export default function(bot, client) {
   // When a user is mentioned and is away, display a notification
   bot.on('lctv:mentions:all', (username, stanza) => {
     // retrieve the mentioned users
-    const mentioned = Utils.getMentions(stanza.getChildText('body'))
+    const mentioned = bot.getMentionsFromValue(stanza.getChildText('body'))
     if (mentioned.length) {
       mentioned.forEach((mentionedUsername) => {
         mentionedUsername = mentionedUsername.substr(1)

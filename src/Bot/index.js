@@ -8,6 +8,7 @@ import Notifications from '../Notifications'
 import Voice from '../Voice'
 import Timer from '../Timer'
 import Command from '../Command'
+import Utils from '../Utils'
 
 // import handlers
 import {
@@ -174,7 +175,7 @@ export default class Bot {
   loadPlugins() {
     this.plugins.map((module) => {
       if (typeof module === 'function') {
-        module.call(this, this, this.client)
+        module.call(this, this)
       }
     })
   }
@@ -250,6 +251,18 @@ export default class Bot {
   }
 
   /**
+   * Creates a User instance from a stanza
+   *
+   * @param Stanza stanza
+   * @return User
+   */
+  createUserFromStanza(stanza) {
+    // retrieve the username
+    const username = Utils.getUsername(stanza.getAttr('from'))
+    return this.createUser(username)
+  }
+
+  /**
    * Saves the User instance
    *
    * @param User user
@@ -305,6 +318,13 @@ export default class Bot {
   }
 
   /**
+   * Retrieves a list of mentions
+   */
+  getMentionsFromValue(value) {
+    return Utils.getMentions(value)
+  }
+
+  /**
    * Speaks the message to the room (voice)
    *
    * @param string message
@@ -336,6 +356,13 @@ export default class Bot {
    */
   on(event, ...args) {
     this.client.on(event, ...args)
+  }
+
+  /**
+   * Emit down to the client
+   */
+  emit(event, ...args) {
+    this.client.emit(event, ...args)
   }
 
 }

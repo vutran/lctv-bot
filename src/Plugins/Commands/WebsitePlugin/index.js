@@ -5,7 +5,7 @@
  *
  * Prints the link to the project web site.
  */
-export default function(bot, client) {
+export default function(bot) {
 
   bot.createCommand('website', 'Prints the link to the project web site.', () => {
     const website = bot.getContent('website') || 'http://vu-tran.com'

@@ -5,7 +5,7 @@ import Watcher from 'rss-watcher'
 /**
  * Adds a notification when you have a new follower.
  */
-export default function(bot, client) {
+export default function(bot) {
 
   // retrieve the followers URL
   const LCTV_FOLLOWERS_URL = process.env.LCTV_FOLLOWERS_URL
@@ -68,16 +68,16 @@ export default function(bot, client) {
 
   // register events
   watcher.on('new article', (item) => {
-    client.emit('lctv:follower:new', item)
+    bot.emit('lctv:follower:new', item)
   })
 
   watcher.on('error', (error) => {
-    client.emit('lctv:follower:error', error)
+    bot.emit('lctv:follower:error', error)
     console.error(error)
   })
 
   watcher.run((error, articles) => {
-    client.emit('lctv:follower:run', error, articles)
+    bot.emit('lctv:follower:run', error, articles)
     if (error) {
       console.error(error)
     }
