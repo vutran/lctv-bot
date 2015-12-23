@@ -16,6 +16,7 @@ export default class Client extends EventEmitter {
 
   constructor(options = {}) {
     super(options)
+    this.setMaxListeners(50)
     let defaults = {
       username: '',
       password: '',

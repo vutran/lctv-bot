@@ -1,6 +1,5 @@
 'use strict'
 
-import EventEmitter from 'events'
 import Users from '../Users'
 import User from '../User'
 import Store from '../Store'
@@ -19,7 +18,7 @@ import {
   handleNewPresence
 } from './handlers'
 
-export default class Bot extends EventEmitter {
+export default class Bot {
 
   /**
    * @param object config
@@ -30,7 +29,6 @@ export default class Bot extends EventEmitter {
    * @param array config.admins           A list of admins
    */
   constructor(config) {
-    super(config)
     this.client = config.client
     this.users = config.users || new Users()
     this.setChannel(config.channel)
