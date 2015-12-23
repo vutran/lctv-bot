@@ -18,6 +18,7 @@ import ViewsPlugin from './src/Plugins/Commands/ViewsPlugin'
 import WebsitePlugin from './src/Plugins/Commands/WebsitePlugin'
 
 // import other plugins
+import WelcomePlugin from './src/Plugins/WelcomePlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
 
 // Load env. vars
@@ -53,6 +54,7 @@ new Bot({
     ViewsPlugin,
     WebsitePlugin,
     // Other plugins
-    FollowersPlugin
+    FollowersPlugin,
+    WelcomePlugin
   ]
 })

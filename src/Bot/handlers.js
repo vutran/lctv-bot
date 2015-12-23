@@ -5,6 +5,8 @@ import Voice from '../Voice'
 import Notifications from '../Notifications'
 
 export function handleTimerTick(tick) {
+  // emit event on the client
+  this.client.emit('lctv:timer:tick', tick)
   if (tick % 5 === 0) {
     if (this.client) {
       this.client.ping()
@@ -71,7 +73,6 @@ export function handleUnavailablePresence(stanza) {
 
 /**
  * Handles the new presence.
- * Displays the welcome messages to new users.
  * Adds the user to the users list.
  *
  * @param Stanza stanza
@@ -83,18 +84,8 @@ export function handleNewPresence(stanza) {
     let user = this.createUser(username)
     // if not own user
     if (user.getUsername() !== this.client.getUsername()) {
-      if (user.getViews() > 0) {
-        // display in channel
-        this.client.say(this.getWelcomeBackMessage(user))
-        Voice.say(this.getWelcomeBackMessage(user))
-      } else {
-        // display in channel
-        this.client.say(this.getWelcomeMessage(user))
-        Voice.say(this.getWelcomeMessage(user))
-      }
-      // desktop notification
-      let message = user.getUsername() + ' just joined the channel.'
-      Notifications.show(this.getContent('botName'), message)
+      // emit the new channel join event
+      this.client.emit('lctv:channel:join', user)
       // if not yet in the users list
       if (!this.users.exists(user.getUsername())) {
         // add user to the users list
@@ -145,5 +136,5 @@ export function handleAllMentions(username, stanza) {
 export function handleSelfMentions(username, stanza) {
   let body = stanza.getChildText('body')
   let message = username + ' mentioned you: ' + body
-  Notifications.show(this.getContent('botName'), message)
+  Notifications.show(this.getName(), message)
 }

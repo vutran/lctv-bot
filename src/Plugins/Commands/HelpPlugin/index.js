@@ -3,11 +3,11 @@
 /**
  * Adds a new command "!help".
  *
- * Will display a list of available commands.
+ * Displays a list of available commands. For more information regarding a specific command, type "!help <command>"
  */
 export default function(bot, client) {
 
-  bot.createCommand('help', 'Displays a list of available commands.', (cmd, args) => {
+  bot.createCommand('help', 'Displays a list of available commands. For more information regarding a specific command, type "!help <command>"', (cmd, args) => {
     // retrieve the list of commands
     const commands = bot.getCommands()
     // filter for available commands

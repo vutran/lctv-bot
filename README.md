@@ -1,14 +1,3 @@
-# Features
-
-- Desktop notifications
- - New user joins
- - Mentions for your username
- - New followers
-- Voice notifications
- - New user joins
- - New followers
-- (Admin) Set custom welcome messages
-
 # Quick Start
 
 Create a `.env` file
@@ -32,43 +21,6 @@ Type `!start` in chat room.
 #### `!start`
 
 Starts the Bot
-
-#### `!help [<command>]`
-
-Displays the help.
-
-#### `!githubLink`
-
-Displays the link to the bot's GitHub project.
-
-#### `!project`
-
-Display the current project information.
-
-#### `!setContent <key> <value>`
-
-Updates the value for the given content string.
-
-#### `!status <newStatus>`
-
-Set your status to "away", or "available" to enable the automatic Bot replies when someone mentions you when you are away.
-
-#### `!views`
-
-This will display how many times you have logged in to view the channel/stream.
-
-**Content Keys**
-
-- **botName**
-- **githubLink**
-- **projectInfo**
-- **welcomeMessage**
- - `%user%` - The username of the person that just joined.
-- **welcomeBackMessage**
- - `%user%` - The username of the person that just joined.
-- **newFollowerMessage**
-- `%user%` - The username who just followed you.
-
 
 # API
 
@@ -111,6 +63,10 @@ This will display how many times you have logged in to view the channel/stream.
 
 `lctv:iq`
 
+`lctv:channel:join`
+
+When a user joins the channel.
+
 `lctv:mentions:all`
 
 `lctv:mentions:self`
@@ -138,12 +94,60 @@ This will display how many times you have logged in to view the channel/stream.
 
 `setContent(key, value)`
 
+**Content Keys**
+
+|Key|Description|
+|---|---|
+|`botName`|The name of the bot. (Default: LCTV Bot)|
+
 `getContent(key)`
 
 `createCommand(cmd, description, handler)`
+
+`getCommands()`
 
 # Plugins
 
 ### `EchoPlugin`
 
+Prints the entered mesasge back to the room.
+
+### `GitHubPlugin`
+
+Prints the link to the GitHub repository of the project.
+
+### `HelpPlugin`
+
+Displays a list of available commands. For more information regarding a specific command, type `!help <command>`
+
+### `ProjectPlugin`
+
+Prints the project information.
+
+### `SayPlugin`
+
+Says whatever the message is to the room.
+
+### `SettingsPlugin`
+
+Sets a general setting value.
+
+### `StatusPlugin`
+
+Sets your status to "away" or "available". If away, the bot will automatically reply when the user is mentioned.
+
+### `ViewsPlugin`
+
+Display the number of times you have visited the channel.
+
+### `WebsitePlugin`
+
+Prints the link to the project web site.
+
 ### `FollowersPlugin`
+
+Adds a notification when you have a new follower.
+
+### `WelcomePlugin`
+
+Adds a welcome message every time a user enters the chat room.

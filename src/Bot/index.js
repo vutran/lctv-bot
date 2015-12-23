@@ -60,11 +60,7 @@ export default class Bot extends EventEmitter {
     // set default values
     this.started = false
     this.defaultContent = {
-      botName: 'LCTV Bot',
-      githubLink: 'https://github.com/vutran/lctv-bot',
-      projectInfo: 'Not yet available.',
-      welcomeBackMessage: 'Welcome back %user%.',
-      welcomeMessage: 'Welcome %user% to the stream.'
+      botName: 'LCTV Bot'
     }
     this.content = this.store.get('content') || this.defaultContent
 
@@ -83,6 +79,13 @@ export default class Bot extends EventEmitter {
     this.timer.start()
     // connect the Client
     this.client.connect()
+  }
+
+  /**
+   * Retrieves the bot name
+   */
+  getName() {
+    return this.getContent('botName')
   }
 
   /**
@@ -164,32 +167,6 @@ export default class Bot extends EventEmitter {
   }
 
   /**
-   * Replaces variables:
-   *
-   * - %user%
-   *
-   * @param User user
-   * @return string
-   */
-  getWelcomeMessage(user) {
-    let value = this.getContent('welcomeMessage')
-    return value.replace(/\%user\%/, user.getUsername())
-  }
-
-  /**
-   * Replaces variables:
-   *
-   * - %user%
-   *
-   * @param User user
-   * @return string
-   */
-  getWelcomeBackMessage(user) {
-    let value = this.getContent('welcomeBackMessage')
-    return value.replace(/\%user\%/, user.getUsername())
-  }
-
-  /**
    * Loads the specified plugin module
    *
    * @param function module
@@ -217,7 +194,7 @@ export default class Bot extends EventEmitter {
     if (!this.isStarted()) {
       this.started = true
       this.client.on('lctv:presence', handleNewPresence.bind(this))
-      Notifications.show(this.getContent('botName'), 'Bot is now started!')
+      Notifications.show(this.getName(), 'Bot is now started!')
     }
   }
 

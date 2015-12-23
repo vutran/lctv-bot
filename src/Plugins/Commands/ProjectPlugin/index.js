@@ -3,12 +3,14 @@
 /**
  * Adds a new command "!project".
  *
- * Prints the project information
+ * Prints the project information.
  */
 export default function(bot, client) {
 
+  const PROJECT_INFO = bot.getContent('projectInfo') || 'Not yet available.'
+
   bot.createCommand('project', 'Prints the project information.', () => {
-    client.say(bot.getContent('projectInfo'))
+    client.say(PROJECT_INFO)
   })
 
 }

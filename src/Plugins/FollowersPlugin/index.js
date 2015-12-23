@@ -5,6 +5,9 @@ import Store from '../../Store'
 import Notifications from '../../Notifications'
 import Voice from '../../Voice'
 
+/**
+ * Adds a notification when you have a new follower.
+ */
 export default function(bot, client) {
 
   // retrieve the followers URL
@@ -116,7 +119,7 @@ export default function(bot, client) {
       const message = user.getUsername() + ' just followed you.'
       // show notifications
       bot.client.say(getNewFollowerMessage(user))
-      Notifications.show(bot.getContent('botName'), message)
+      Notifications.show(bot.getName(), message)
       Voice.say(getNewFollowerMessage(user))
     }
   })

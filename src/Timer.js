@@ -3,13 +3,12 @@
 import EventEmitter from 'events'
 import util from 'util'
 
-export default class Timer {
+export default class Timer extends EventEmitter {
 
   constructor(tickDelay = 1000) {
+    super(tickDelay)
     this.ticks = 0
     this.tickDelay = tickDelay
-
-    EventEmitter.call(this)
   }
 
   tick() {
@@ -22,5 +21,3 @@ export default class Timer {
   }
 
 }
-
-util.inherits(Timer, EventEmitter)
