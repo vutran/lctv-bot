@@ -31,12 +31,15 @@
     "node-notifier": "^4.4.0",
     "node-persist": "0.0.8",
     "node-xmpp-client": "^3.0.0",
+    "player": "^0.6.1",
     "request": "^2.67.0",
     "rss-watcher": "^1.3.0",
     "say": "^0.6.0",
     "socket.io": "^1.3.7",
     "websocket": "^1.0.22",
-    "wolfram": "^0.3.2"
+    "wolfram": "^0.3.2",
+    "youtube-dl": "^1.10.5",
+    "youtube-mp3-downloader": "^0.4.1"
   },
   "jest": {
     "scriptPreprocessor": "./node_modules/babel-jest",

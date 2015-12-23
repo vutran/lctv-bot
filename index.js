@@ -24,6 +24,7 @@ import MentionsPlugin from './src/Plugins/MentionsPlugin'
 import LiveCodingPlugin from './src/Plugins/LiveCoding'
 import JokesPlugin from './src/Plugins/JokesPlugin'
 import WolframPlugin from './src/Plugins/WolframPlugin'
+import AudioPlaylistPlugin from './src/Plugins/AudioPlaylistPlugin'
 
 // Load env. vars
 require('dotenv').load()
@@ -60,6 +61,7 @@ new Bot({
     MentionsPlugin,
     LiveCodingPlugin,
     JokesPlugin,
-    WolframPlugin
+    WolframPlugin,
+    AudioPlaylistPlugin
   ]
 })

@@ -297,15 +297,20 @@ export default class Bot {
   /**
    * Creates a new admin-only command and binds the command to the event
    *
-   * @param string cmd
+   * @param array|string cmd        An array of strings or a string of command(s)
    * @param string description
    * @param function handler
    */
   createAdminCommand(cmd, description, handler) {
-    // create a new Command
-    const command = new Command(cmd, description, handler)
-    this.adminCommands.push(command)
-    this.on('lctv:cmd:admin', command.exec.bind(command))
+    if (util.isArray(cmd)) {
+      cmd.forEach((c) => {
+        this.createAdminCommand(c, description, handler)
+      })
+    } else {    // create a new Command
+      const command = new Command(cmd, description, handler)
+      this.adminCommands.push(command)
+      this.on('lctv:cmd:admin', command.exec.bind(command))
+    }
   }
 
   /**

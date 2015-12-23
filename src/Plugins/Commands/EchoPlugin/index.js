@@ -7,7 +7,7 @@
  */
 export default function(bot) {
 
-  bot.createCommand('echo', 'Prints the entered message back to the room.', (cmd, args) => {
+  bot.createAdminCommand('echo', 'Prints the entered message back to the room.', (cmd, args) => {
     bot.say(args.join(' '))
   })
 
