@@ -51,6 +51,8 @@ new Bot({
     SayPlugin,
     StatusPlugin,
     ViewsPlugin,
-    WebsitePlugin
+    WebsitePlugin,
+    // Other plugins
+    FollowersPlugin
   ]
 })
