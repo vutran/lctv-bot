@@ -9,9 +9,9 @@ export default function(bot) {
     bot.saveUser(user)
   }
 
-  bot.createAdminCommand('pronounce', 'Sets a new pronunciation for a specified user.', (cmd, args, stanza) => {
+  bot.createAdminCommand('pronounce', 'Sets a new pronunciation for a specified user.', (cmd, args) => {
     // create the User instance
-    const user = bot.createUserFromStanza(stanza)
+    const user = args.shift()
     // set a new voice name
     setVoiceName(user, args.join(' '))
   })

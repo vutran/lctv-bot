@@ -68,7 +68,7 @@ export default function(bot) {
     player.add(song)
     bot.say(song.getName() + ' has been added to the queue.')
     // if not currently playing anything
-    if (!player.playing) {
+    if (!currentSong) {
       // starts the player
       player.play()
     }
