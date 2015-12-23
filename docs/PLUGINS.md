@@ -48,9 +48,17 @@ Adds a notification when you have a new follower.
 
 Adds a greeting message every time a user enters the chat room.
 
+### `JokesPlugin`
+
+Print a random Chuck Norris joke.
+
 ### `MentionsPlugin`
 
 Display a desktop notification when someone mentions your username.
+
+### `WolframPlugin`
+
+Seek an answer? Look it up.
 
 # How To Write Your Own Plugin
 

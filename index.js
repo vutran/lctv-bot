@@ -22,6 +22,8 @@ import GreetPlugin from './src/Plugins/GreetPlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
 import MentionsPlugin from './src/Plugins/MentionsPlugin'
 import LiveCodingPlugin from './src/Plugins/LiveCoding'
+import JokesPlugin from './src/Plugins/JokesPlugin'
+import WolframPlugin from './src/Plugins/WolframPlugin'
 
 // Load env. vars
 require('dotenv').load()
@@ -56,6 +58,8 @@ new Bot({
     FollowersPlugin,
     GreetPlugin,
     MentionsPlugin,
-    LiveCodingPlugin
+    LiveCodingPlugin,
+    JokesPlugin,
+    WolframPlugin
   ]
 })
