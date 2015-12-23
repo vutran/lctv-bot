@@ -25,6 +25,7 @@ import LiveCodingPlugin from './src/Plugins/LiveCoding'
 import JokesPlugin from './src/Plugins/JokesPlugin'
 import WolframPlugin from './src/Plugins/WolframPlugin'
 import AudioPlaylistPlugin from './src/Plugins/AudioPlaylistPlugin'
+import TickerPlugin from './src/Plugins/TickerPlugin'
 
 // Load env. vars
 require('dotenv').load()
@@ -62,6 +63,7 @@ new Bot({
     LiveCodingPlugin,
     JokesPlugin,
     WolframPlugin,
-    AudioPlaylistPlugin
+    AudioPlaylistPlugin,
+    TickerPlugin
   ]
 })

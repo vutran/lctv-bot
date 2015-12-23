@@ -93,6 +93,8 @@ export default function(bot) {
   const current = () => {
     if (currentSong) {
       bot.say('Currently playing: ' + currentSong.getName())
+    } else {
+      bot.say('There are no songs currently being played. Request one now with !request <youtubeId>')
     }
   }
 

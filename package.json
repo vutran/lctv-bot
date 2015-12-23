@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "babel-node index.js",
+    "restart": "forever restartall",
+    "stop": "forever stopall",
     "lint": "eslint src __tests__",
     "test": "jest"
   },

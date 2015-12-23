@@ -211,6 +211,15 @@ export default class Bot {
   }
 
   /**
+   * Leaves the channel specified by a channel name
+   *
+   * @param string channel
+   */
+  leave(channel) {
+    this.client.leave(channel)
+  }
+
+  /**
    * Creates a new storage device
    *
    * @param string name       A unique name of the storage device.

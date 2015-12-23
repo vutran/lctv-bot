@@ -17,10 +17,16 @@ export default function(bot) {
   })
 
   bot.createCommand('callme', 'Sets a new pronunciation for yourself.', (cmd, args, stanza) => {
-    // create the User instance
-    const user = bot.createUserFromStanza(stanza)
     // set a new voice name
-    setVoiceName(user, args.join(' '))
+    const voiceName = args.join(' ')
+    if (!voiceName.length) {
+      bot.say('Missing pronunciation. Usage: !callme <your new name>')
+    } else {
+      // create the User instance
+      const user = bot.createUserFromStanza(stanza)
+      setVoiceName(user, voiceName)
+      bot.speak('I will now call you ' + voiceName)
+    }
   })
 
 }
