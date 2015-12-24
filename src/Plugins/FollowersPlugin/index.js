@@ -1,5 +1,6 @@
 'use strict'
 
+import util from 'util'
 import Watcher from 'rss-watcher'
 
 /**
@@ -16,7 +17,12 @@ export default function(bot) {
   const store = bot.createStore('followers')
 
   // retrieve users from store or create a new list of users
-  const users = store.get('list') || []
+  let users = []
+  store.get('list', (err, results) => {
+    if (util.isArray(results)) {
+      users = results
+    }
+  })
 
   // create the watcher
   const watcher = new Watcher(LCTV_FOLLOWERS_URL)

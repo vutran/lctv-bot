@@ -63,15 +63,16 @@ export default function(bot) {
    */
   const handleSong = (song) => {
     // save data to store
-    audioStore.set(song.getId(), song)
-    // add to player
-    player.add(song)
-    bot.say(song.getName() + ' has been added to the queue.')
-    // if not currently playing anything
-    if (!currentSong) {
-      // starts the player
-      player.play()
-    }
+    audioStore.set(song.getId(), song, () => {
+      // add to player
+      player.add(song)
+      bot.say(song.getName() + ' has been added to the queue.')
+      // if not currently playing anything
+      if (!currentSong) {
+        // starts the player
+        player.play()
+      }
+    })
   }
 
   /**
@@ -79,15 +80,16 @@ export default function(bot) {
    */
   const queue = (vId) => {
     // retrieve from store
-    const data = audioStore.get(vId)
-    if (!data) {
-      const fileName = vId + '.mp3'
-      YD.download(vId, fileName)
-    } else {
-      // create a Song instance
-      const song = new Song(data.id, data.name, data.file)
-      handleSong(song)
-    }
+    audioStore.get(vId, (err, data) => {
+      if (!data) {
+        const fileName = vId + '.mp3'
+        YD.download(vId, fileName)
+      } else {
+        // create a Song instance
+        const song = new Song(data.id, data.name, data.file)
+        handleSong(song)
+      }
+    })
   }
 
   const current = () => {

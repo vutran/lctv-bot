@@ -3,7 +3,8 @@
 import util from 'util'
 import Users from '../Users'
 import User from '../User'
-import Store from '../Store'
+import FileStore from '../Store/FileStore'
+import MongoStore from '../Store/MongoStore'
 import Notifications from '../Notifications'
 import Voice from '../Voice'
 import Timer from '../Timer'
@@ -58,21 +59,26 @@ export default class Bot {
     this.defaultContent = {
       botName: 'LCTV Bot'
     }
-    this.content = this.store.get('content') || this.defaultContent
 
-    // register custom events
-    this.on('online', handleOnline.bind(this))
-    this.on('lctv:cmd:admin', handleAdminCommands.bind(this))
-    this.on('lctv:presence', handleInitialPresence.bind(this))
-    this.on('lctv:presence', handleUnavailablePresence.bind(this))
+    // Set the default general settings
+    this.content = this.defaultContent
 
-    // load plugins
-    this.loadPlugins()
-
-    // starts the timer
-    this.timer.start()
-    // connect the Client
-    this.client.connect()
+    // Load general settings
+    this.store.get('content', (err, results) => {
+      // set the general settings with the saved data
+      this.content = results
+      // register custom events
+      this.on('online', handleOnline.bind(this))
+      this.on('lctv:cmd:admin', handleAdminCommands.bind(this))
+      this.on('lctv:presence', handleInitialPresence.bind(this))
+      this.on('lctv:presence', handleUnavailablePresence.bind(this))
+      // load plugins
+      this.loadPlugins()
+      // starts the timer
+      this.timer.start()
+      // connect the Client
+      this.client.connect()
+    })
   }
 
   /**
@@ -225,9 +231,7 @@ export default class Bot {
    * @param string name       A unique name of the storage device.
    */
   createStore(name) {
-    return new Store({
-      dir: name
-    })
+    return new FileStore({ name })
   }
 
   /**
@@ -248,7 +252,12 @@ export default class Bot {
       status: 'available',
       awayMessage: ''
     }
-    const data = Object.assign({}, defaultData, this.userStore.get(username))
+    let data = Object.assign({}, defaultData)
+    this.userStore.get(username, (err, results) => {
+      if (util.isArray(results)) {
+        data = results
+      }
+    })
     const user = new User(data.username, data.views, data.status)
     // set the user's voice-pronounced name
     user.setVoiceName(data.voiceName)
@@ -278,9 +287,10 @@ export default class Bot {
    */
   saveUser(user) {
     // saves to store
-    this.userStore.set(user.getUsername(), user)
-    // updates collection
-    this.users.replaceByUsername(user.getUsername(), user)
+    this.userStore.set(user.getUsername(), user, () => {
+      // updates collection
+      this.users.replaceByUsername(user.getUsername(), user)
+    })
   }
 
   /**

@@ -50,31 +50,33 @@ export default function(bot) {
     // lowercase
     q = q.toLowerCase()
     // retrieve from store
-    let message = store.get(q)
-    if (message) {
-      callback.call(this, null, message)
-    } else {
-      // if the user is allowed to lookup
-      if (CAN_LOOKUP && WOLFRAM_APP_ID.length) {
-        const client = wolfram.createClient(WOLFRAM_APP_ID)
-        client.query(q, (err, results) => {
-          if (!err) {
-            let message = buildMessage(results)
-            if (message.length) {
-              // disable lookup until next time
-              CAN_LOOKUP = false
-              // save into store
-              store.set(q, message)
-              callback.call(this, null, message)
-            } else {
-              callback.call(this, true)
-            }
-          }
-        })
+    store.get(q, (err, message) => {
+      if (message) {
+        callback.call(this, null, message)
       } else {
-        callback.call(this, true)
+        // if the user is allowed to lookup
+        if (CAN_LOOKUP && WOLFRAM_APP_ID.length) {
+          const client = wolfram.createClient(WOLFRAM_APP_ID)
+          client.query(q, (err, results) => {
+            if (!err) {
+              let message = buildMessage(results)
+              if (message.length) {
+                // disable lookup until next time
+                CAN_LOOKUP = false
+                // save into store
+                store.set(q, message, () => {
+                  callback.call(this, null, message)
+                })
+              } else {
+                callback.call(this, true)
+              }
+            }
+          })
+        } else {
+          callback.call(this, true)
+        }
       }
-    }
+    })
   }
 
   bot.createCommand('lookup', 'Seek an answer? Look it up.', (cmd, args) => {
