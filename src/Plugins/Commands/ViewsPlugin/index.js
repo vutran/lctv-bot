@@ -9,8 +9,9 @@ export default function(bot) {
 
   bot.createCommand('views', 'Display the number of times you have visited the channel.', (cmd, args, stanza) => {
     // create the User instance
-    const user = bot.createUserFromStanza(stanza)
-    bot.say(user.getMention() + ': You have ' + user.getViews() + ' views.')
+    bot.retrieveUserFromStanza(stanza, (user) => {
+      bot.say(user.getMention() + ': You have ' + user.getViews() + ' views.')
+    })
   })
 
   // When a user joins the channel, increment the view count

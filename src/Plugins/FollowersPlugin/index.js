@@ -10,7 +10,7 @@ export default function(bot) {
 
   // retrieve the followers URL
   const LCTV_FOLLOWERS_URL = process.env.LCTV_FOLLOWERS_URL
-  const WATCH_INTERVAL = 5 // in seconds
+  const WATCH_INTERVAL = 15 // in seconds
   const NEW_FOLLOWER_MESSAGE = 'Thank you for following me, %user%.'
 
   // set the followers storage device
@@ -21,6 +21,7 @@ export default function(bot) {
   store.get('list', (err, results) => {
     if (util.isArray(results)) {
       users = results
+      init()
     }
   })
 
@@ -66,6 +67,32 @@ export default function(bot) {
     return value.replace(/\%user\%/, user.getUsername())
   }
 
+  const init = () => {
+    watcher.run((error, articles) => {
+      bot.emit('lctv:follower:run', error, articles)
+      if (error) {
+        console.error('%s: %s', 'FollowersPlugin', error)
+      }
+      if (articles && articles.length) {
+        // set changed flag
+        let changed = false
+        // iterate through all
+        articles.forEach((item) => {
+          // if not yet in the list
+          if (!exists(item.title)) {
+            // add to users list
+            add(item.title)
+            changed = true
+          }
+        })
+        if (changed) {
+          // save to store
+          save()
+        }
+      }
+    })
+  }
+
   // poll every 5 seconds...
   watcher.set({
     feed: LCTV_FOLLOWERS_URL,
@@ -82,46 +109,23 @@ export default function(bot) {
     console.error('%s: %s', 'FollowersPlugin', error)
   })
 
-  watcher.run((error, articles) => {
-    bot.emit('lctv:follower:run', error, articles)
-    if (error) {
-      console.error('%s: %s', 'FollowersPlugin', error)
-    }
-    if (articles && articles.length) {
-      // set changed flag
-      let changed = false
-      // iterate through all
-      articles.forEach((item) => {
-        // if not yet in the list
-        if (!exists(item.title)) {
-          // add to users list
-          add(item.title)
-          changed = true
-        }
-      })
-      if (changed) {
-        // save to store
-        save()
-      }
-    }
-  })
-
   bot.on('lctv:follower:new', (item) => {
     const username = item.title
     // if not yet in users collection
     if (!exists(username)) {
       // create the user
-      const user = bot.createUser(username)
-      // add to followers user collection
-      add(username)
-      // save the followers
-      save()
-      // set the message
-      const message = user.getUsername() + ' just followed you.'
-      // show notifications
-      bot.say(getNewFollowerMessage(user))
-      bot.speak(getNewFollowerMessage(user))
-      bot.notify(message)
+      bot.retrieveUser(username, {}, (user) => {
+        // add to followers user collection
+        add(username)
+        // save the followers
+        save()
+        // set the message
+        const message = user.getUsername() + ' just followed you.'
+        // show notifications
+        bot.say(getNewFollowerMessage(user))
+        bot.speak(getNewFollowerMessage(user))
+        bot.notify(message)
+      })
     }
   })
 

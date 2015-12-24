@@ -105,13 +105,13 @@ Listen to an event, and runs the handler when emitted.
 
 Creates a new storage device
 
-`createUser(username)`
+`retrieveUser(username, options, callback)`
 
-Creates a new User instance (loads from the user store if already exists)
+Retrieve a new User instance (loads from the user store if already exists)
 
-`createUserFromStanza(stanza)`
+`retrieveUserFromStanza(stanza, callback)`
 
-Creates a User instance from a stanza.
+Retrieve a User instance from a stanza.
 
 `saveUser(user)`
 

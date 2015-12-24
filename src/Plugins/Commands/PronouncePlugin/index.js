@@ -23,9 +23,10 @@ export default function(bot) {
       bot.say('Missing pronunciation. Usage: !callme <your new name>')
     } else {
       // create the User instance
-      const user = bot.createUserFromStanza(stanza)
-      setVoiceName(user, voiceName)
-      bot.speak('I will now call you ' + voiceName)
+      bot.retrieveUserFromStanza(stanza, (user) => {
+        setVoiceName(user, voiceName)
+        bot.speak('I will now call you ' + voiceName)
+      })
     }
   })
 

@@ -42,12 +42,13 @@ export function handleAdminCommands(cmd) {
 export function handleInitialPresence(stanza) {
   // retrieve the username
   const username = Utils.getUsername(stanza.getAttr('from'))
-  const user = this.createUser(username)
-  // if not yet in the users list
-  if (!this.users.exists(user.getUsername())) {
-    // add user to the users list
-    this.users.add(user)
-  }
+  this.retrieveUser(username, {}, (user) => {
+    // if not yet in the users list
+    if (!this.users.exists(user.getUsername())) {
+      // add user to the users list
+      this.users.add(user)
+    }
+  })
 }
 
 /**
@@ -59,14 +60,16 @@ export function handleInitialPresence(stanza) {
 export function handleUnavailablePresence(stanza) {
   // retrieve the username
   const username = Utils.getUsername(stanza.getAttr('from'))
-  const user = this.createUser(username)
-  if (stanza.getAttr('type') === "unavailable") {
-    // if in the users list
-    if (this.users.exists(user.getUsername())) {
-      // remove user from the users list
-      this.users.removeByUsername(user.getUsername())
+  const bot = this
+  this.retrieveUser(username, {}, (user) => {
+    if (stanza.getAttr('type') === "unavailable") {
+      // if in the users list
+      if (bot.users.exists(user.getUsername())) {
+        // remove user from the users list
+        bot.users.removeByUsername(user.getUsername())
+      }
     }
-  }
+  })
 }
 
 /**
@@ -79,18 +82,21 @@ export function handleNewPresence(stanza) {
   if (stanza.getAttr('type') !== "unavailable") {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
-    const user = this.createUser(username, {
+    const options = {
       role: stanza.getChild('x').getChildElements()[0].getAttr('role')
-    })
-    // if not own user
-    if (user.getUsername() !== this.client.getUsername()) {
-      // emit the new channel join event
-      this.client.emit('lctv:channel:join', user)
-      // if not yet in the users list
-      if (!this.users.exists(user.getUsername())) {
-        // add user to the users list
-        this.users.add(user)
-      }
     }
+    const bot = this
+    this.retrieveUser(username, options, (user) => {
+      // if not own user
+      if (user.getUsername() !== this.client.getUsername()) {
+        // emit the new channel join event
+        bot.client.emit('lctv:channel:join', user)
+        // if not yet in the users list
+        if (!bot.users.exists(user.getUsername())) {
+          // add user to the users list
+          bot.users.add(user)
+        }
+      }
+    })
   }
 }

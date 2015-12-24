@@ -46,23 +46,26 @@ export default function(bot) {
       bot.say('Please specify a status (Example: !status <away|available> [<message>]).')
     } else {
       // create the User instance
-      const user = bot.createUserFromStanza(stanza)
-      const message = args.join(' ')
-      updateStatus(user, newStatus, message)
+      bot.retrieveUserFromStanza(stanza, (user) => {
+        const message = args.join(' ')
+        updateStatus(user, newStatus, message)
+      })
     }
   })
 
   bot.createCommand(['away', 'brb'], 'Sets your status as away.', (cmd, args, stanza) => {
     // create the User instance
-    const user = bot.createUserFromStanza(stanza)
-    const message = args.join(' ')
-    updateStatus(user, 'away', message)
+    bot.retrieveUserFromStanza(stanza, (user) => {
+      const message = args.join(' ')
+      updateStatus(user, 'away', message)
+    })
   })
 
   bot.createCommand(['available', 'back'], 'Sets your status as available.', (cmd, args, stanza) => {
     // create the User instance
-    const user = bot.createUserFromStanza(stanza)
-    updateStatus(user, 'available')
+    bot.retrieveUserFromStanza(stanza, (user) => {
+      updateStatus(user, 'available')
+    })
   })
 
   // When a user joins the channel, make them available by default
@@ -83,16 +86,17 @@ export default function(bot) {
         // if mentioned username is in the users collection
         if (bot.users.exists(mentionedUsername)) {
           // create the mentioned user
-          let mentionedUser = bot.createUser(mentionedUsername)
-          // if the user is away
-          if (mentionedUser.isAway()) {
-            let awayMessage = ''
-            // if away message exists, set it
-            if (mentionedUser.getAwayMessage().length) {
-              awayMessage = ' (' + mentionedUser.getAwayMessage() + ')'
+          bot.retrieveUser(mentionedUsername, {}, (mentionedUser) => {
+            // if the user is away
+            if (mentionedUser.isAway()) {
+              let awayMessage = ''
+              // if away message exists, set it
+              if (mentionedUser.getAwayMessage().length) {
+                awayMessage = ' (' + mentionedUser.getAwayMessage() + ')'
+              }
+              bot.say(mentionedUsername + ' is currently away.' + awayMessage)
             }
-            bot.say(mentionedUsername + ' is currently away.' + awayMessage)
-          }
+          })
         }
       })
     }

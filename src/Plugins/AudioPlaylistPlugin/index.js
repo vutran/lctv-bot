@@ -18,16 +18,30 @@ import Song from './Song'
 export default function(bot) {
 
   const REQUEST_DELAY = 15
+  const PLAYLIST_SAVE_DELAY = 300
   let CAN_REQUEST = true
 
   // current song
   let currentSong = null
 
   // create a store
+  const playlistStore = bot.createStore('playlist-store')
   const audioStore = bot.createStore('audio-store')
 
   // create the player
   const player = new Player()
+
+  // load the default playlist
+  playlistStore.get('default', (err, result) => {
+    result.forEach((data) => {
+      // create the Song instance
+      const song = new Song(data.id, data.name, data.file)
+      // add to playler
+      player.add(song)
+    })
+    // starts player
+    player.play()
+  })
 
   // create the downloader instance
   const YD = new YoutubeMp3Downloader({
@@ -75,6 +89,8 @@ export default function(bot) {
       // add to player
       player.add(song)
       bot.say(song.getName() + ' has been added to the queue.')
+      // save the playlist
+      save()
       // if not currently playing anything
       if (!currentSong) {
         // starts the player
@@ -113,10 +129,22 @@ export default function(bot) {
     player.next()
   }
 
+  // FIXME: this is not cool...
+  const clear = () => {
+    player.stop()
+    player.playing = null
+    player.history = []
+    player._list = []
+  }
+
+  // FIXME: this is not cool...
+  const getList = () => {
+    return player._list
+  }
+
   const list = () => {
     let upcoming = []
-    // FIXME: this is not cool...
-    player._list.forEach((item, key) => {
+    getList().forEach((item, key) => {
       if (key < 5) {
         upcoming.push(item.getName())
       }
@@ -124,8 +152,17 @@ export default function(bot) {
     bot.say('Current queue: ' + upcoming.join(', '))
   }
 
+  const save = () => {
+    // save the playlist
+    playlistStore.set('default', getList())
+  }
+
   bot.createAdminCommand(['skipSong', 'skip'], 'Skips the current song', () => {
     skip()
+  })
+
+  bot.createAdminCommand(['clearPlaylist'], 'Clears the playlist', () => {
+    clear()
   })
 
   bot.createCommand('request', 'Requests a new song to be played', (cmd, args) => {
@@ -149,6 +186,9 @@ export default function(bot) {
   bot.on('lctv:timer:tick', (ticks) => {
     if (ticks % REQUEST_DELAY === 0) {
       CAN_REQUEST = true
+    }
+    if (ticks % PLAYLIST_SAVE_DELAY === 0) {
+      save()
     }
   })
 

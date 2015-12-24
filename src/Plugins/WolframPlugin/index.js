@@ -68,24 +68,31 @@ export default function(bot) {
                   callback.call(this, null, message)
                 })
               } else {
-                callback.call(this, true)
+                callback.call(this, true, 'No results')
               }
+            } else {
+              callback.call(this, true, err)
             }
           })
         } else {
-          callback.call(this, true)
+          callback.call(this, true, 'Lookup delay or invalid API key')
         }
       }
     })
   }
 
+  const handleError = (error, message) => {
+    console.error('%s: %s', 'WolframPlugin', message)
+  }
+
   bot.createCommand('lookup', 'Seek an answer? Look it up.', (cmd, args) => {
     const q = args.join(' ')
     query(q, (error, message) => {
-      if (!error) {
-        bot.say(message)
-      } else {
+      if (error) {
+        handleError(error, message)
         bot.say('Not available at the moment. Please try again at a later time.')
+      } else {
+        bot.say(message)
       }
     })
   })

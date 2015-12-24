@@ -57,8 +57,9 @@ describe('Bot', () => {
     expect(bot.createStore('test-store')).toEqual(jasmine.any(Store))
   })
 
-  it('should create a User', () => {
-    expect(bot.createUser('test-username')).toEqual(jasmine.any(User))
+  it('should retrieve a User', () => {
+    // FIXME: fix with new callback
+    expect(bot.retrieveUser('test-username')).toEqual(jasmine.any(User))
   })
 
   it('should create a Command', () => {

@@ -1,5 +1,7 @@
 'use strict'
 
+import co from 'co'
+
 /**
  * Adds a greeting message every time a user enters the chat room.
  * - Displays a desktop notification
@@ -78,12 +80,13 @@ export default function(bot) {
     if (!username.length) {
       bot.say('Missing <username>.')
     } else {
-      const user = bot.createUser(username)
-      // retrieve the messages
-      const message = getGreetMessage(user)
-      const voiceMessage = getGreetMessage(user, true)
-      bot.say(message)
-      bot.speak(voiceMessage)
+      bot.retrieveUser(username, {}, (user) => {
+        // retrieve the messages
+        const message = getGreetMessage(user)
+        const voiceMessage = getGreetMessage(user, true)
+        bot.say(message)
+        bot.speak(voiceMessage)
+      })
     }
   })
 

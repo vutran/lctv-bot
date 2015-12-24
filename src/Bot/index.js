@@ -258,43 +258,47 @@ export default class Bot {
   }
 
   /**
-   * Creates a User instance from the given username.
-   * Loads stored data if found.
+   * Retrieve a User instance from the given username.
+   * Loads stored data if found, otherwise return a new instance.
    *
    * @param string username
    * @param object options
    * @param string options.role         The role of the user
-   * @return User
+   * @param function callback
    */
-  createUser(username, options = {}) {
+  retrieveUser(username, options, callback) {
     // retrieve stored user or create new one
     const defaultData = { username }
     let data = Object.assign({}, defaultData)
-    this.userStore.get(username, (err, results) => {
-      if (util.isArray(results)) {
+    // create a new user
+    const user = new User(data)
+    // retrieve user from store
+    this.userStore.get(user.getUsername(), (err, results) => {
+      if (util.isObject(results) || util.isArray(results)) {
         data = results
+        // set the user's voice-pronounced name
+        user.setVoiceName(data.voiceName)
+        // sets the away message
+        user.setAwayMessage(data.awayMessage)
+        // set the user's role
+        user.setRole(data.role || options.role || 'participant')
+      }
+      if (typeof callback === 'function') {
+        callback.call(null, user)
       }
     })
-    const user = new User(data)
-    // set the user's voice-pronounced name
-    user.setVoiceName(data.voiceName)
-    // sets the away message
-    user.setAwayMessage(data.awayMessage)
-    // set the user's role
-    user.setRole(data.role || options.role || 'participant')
-    return user
   }
 
   /**
    * Creates a User instance from a stanza
    *
    * @param Stanza stanza
-   * @return User
+   * @param function callback
    */
-  createUserFromStanza(stanza) {
+  retrieveUserFromStanza(stanza, callback) {
     // retrieve the username
     const username = Utils.getUsername(stanza.getAttr('from'))
-    return this.createUser(username)
+    this.retrieveUser(username, {}, callback)
   }
 
   /**
