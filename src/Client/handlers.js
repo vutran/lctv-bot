@@ -27,7 +27,7 @@ export function handleReconnect(data) {
 }
 
 export function handleError(error) {
-  console.error(error);
+  console.error('%s: %s', 'Client/handler', error);
 }
 
 export function handleStanza(stanza) {

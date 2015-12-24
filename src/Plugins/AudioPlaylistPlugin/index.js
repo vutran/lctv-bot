@@ -38,7 +38,9 @@ export default function(bot) {
     progressTimeout: 2000
   })
 
-  player.on('error', console.error)
+  player.on('error', (error) => {
+    console.error('%s: %s', 'AudioPlaylistPlugin', error)
+  })
 
   player.on('playing', (song) => {
     currentSong = song
@@ -49,7 +51,13 @@ export default function(bot) {
     currentSong = null
   })
 
-  YD.on('error', console.error)
+  player.on('finish', () => {
+    currentSong = null
+  })
+
+  YD.on('error', (error) => {
+    console.error('%s: %s', 'AudioPlaylistPlugin', error)
+  })
 
   YD.on('finished', (data) => {
     // create a new song

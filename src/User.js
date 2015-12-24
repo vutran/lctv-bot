@@ -2,13 +2,28 @@
 
 export default class User {
 
-  constructor(username, views = 0, status = 'available') {
+  constructor(configs = {}) {
+    const defaults = {
+      username: '',
+      voiceName: '',
+      views: 0,
+      role: 'participant',
+      status: 'available',
+      awayMessage: ''
+    }
+    // override defaults
+    configs = Object.assign({}, defaults, configs)
+    // set properties
+    this.setUsername(configs.username)
+    this.setVoiceName(configs.voiceName || configs.username)
+    this.setViews(configs.views)
+    this.setRole(configs.role)
+    this.setStatus(configs.status)
+    this.setAwayMessage(configs.awayMessage)
+  }
+
+  setUsername(username) {
     this.username = username
-    this.voiceName = username
-    this.views = views
-    this.role = 'participant'
-    this.setStatus(status)
-    this.awayMessage = ''
   }
 
   getUsername() {

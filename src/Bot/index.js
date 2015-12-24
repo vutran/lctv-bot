@@ -3,7 +3,7 @@
 import util from 'util'
 import Users from '../Users'
 import User from '../User'
-import FileStore from '../Store/FileStore'
+// import FileStore from '../Store/FileStore'
 import MongoStore from '../Store/MongoStore'
 import Notifications from '../Notifications'
 import Voice from '../Voice'
@@ -25,13 +25,15 @@ export default class Bot {
 
   /**
    * @param object config
+   * @param string config.dbHost          The database host
    * @param Client config.client          An instance of Client
    * @param string config.channel         The name of the channel to join
    * @param array config.mentions         A list of strings to watch for
    * @param array config.admins           A list of admins
    */
   constructor(config) {
-    this.client = config.client
+    this.setDatabaseHost(config.dbHost)
+    this.setClient(config.client)
     this.setChannel(config.channel)
     this.setMentions(config.mentions)
     this.setAdmins(config.admins)
@@ -66,7 +68,9 @@ export default class Bot {
     // Load general settings
     this.store.get('content', (err, results) => {
       // set the general settings with the saved data
-      this.content = results
+      if (results) {
+        this.content = results
+      }
       // register custom events
       this.on('online', handleOnline.bind(this))
       this.on('lctv:cmd:admin', handleAdminCommands.bind(this))
@@ -81,11 +85,27 @@ export default class Bot {
     })
   }
 
+  setClient(client) {
+    this.client = client
+  }
+
+  getClient() {
+    return this.client
+  }
+
   /**
    * Retrieves the bot name
    */
   getName() {
     return this.getContent('botName')
+  }
+
+  setDatabaseHost(databaseHost) {
+    this.databaseHost = databaseHost
+  }
+
+  getDatabaseHost() {
+    return this.databaseHost
   }
 
   /**
@@ -231,7 +251,10 @@ export default class Bot {
    * @param string name       A unique name of the storage device.
    */
   createStore(name) {
-    return new FileStore({ name })
+    return new MongoStore({
+      name,
+      host: this.getDatabaseHost()
+    })
   }
 
   /**
@@ -245,20 +268,14 @@ export default class Bot {
    */
   createUser(username, options = {}) {
     // retrieve stored user or create new one
-    const defaultData = {
-      username,
-      voiceName: username,
-      views: 0,
-      status: 'available',
-      awayMessage: ''
-    }
+    const defaultData = { username }
     let data = Object.assign({}, defaultData)
     this.userStore.get(username, (err, results) => {
       if (util.isArray(results)) {
         data = results
       }
     })
-    const user = new User(data.username, data.views, data.status)
+    const user = new User(data)
     // set the user's voice-pronounced name
     user.setVoiceName(data.voiceName)
     // sets the away message

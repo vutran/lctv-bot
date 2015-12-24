@@ -79,13 +79,13 @@ export default function(bot) {
 
   watcher.on('error', (error) => {
     bot.emit('lctv:follower:error', error)
-    console.error(error)
+    console.error('%s: %s', 'FollowersPlugin', error)
   })
 
   watcher.run((error, articles) => {
     bot.emit('lctv:follower:run', error, articles)
     if (error) {
-      console.error(error)
+      console.error('%s: %s', 'FollowersPlugin', error)
     }
     if (articles && articles.length) {
       // set changed flag

@@ -38,16 +38,15 @@ const client = new Client({
 
 // Create a new Bot
 new Bot({
+  dbHost: 'mongodb://dockerhost:27017',
   client,
   channel: process.env.LCTV_CHANNEL,
   mentions: process.env.LCTV_MENTIONS.split(','),
   admins: process.env.LCTV_ADMINS.split(','),
   plugins: [
-    // Admin plugins
     SettingsPlugin,
     SayPlugin,
     PronouncePlugin,
-    // Public plugins
     EchoPlugin,
     GitHubPlugin,
     HelpPlugin,
@@ -56,7 +55,6 @@ new Bot({
     StatusPlugin,
     ViewsPlugin,
     WebsitePlugin,
-    // Other plugins
     FollowersPlugin,
     GreetPlugin,
     MentionsPlugin,
