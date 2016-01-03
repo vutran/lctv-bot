@@ -84,7 +84,7 @@ export default function(bot) {
       mentioned.forEach((mentionedUsername) => {
         mentionedUsername = mentionedUsername.substr(1)
         // if mentioned username is in the users collection
-        if (bot.users.exists(mentionedUsername)) {
+        if (bot.getUsers().exists(mentionedUsername)) {
           // create the mentioned user
           bot.retrieveUser(mentionedUsername, {}, (mentionedUser) => {
             // if the user is away

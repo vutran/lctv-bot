@@ -64,9 +64,10 @@ export function handleUnavailablePresence(stanza) {
   this.retrieveUser(username, {}, (user) => {
     if (stanza.getAttr('type') === "unavailable") {
       // if in the users list
-      if (bot.users.exists(user.getUsername())) {
+      if (bot.getUsers().exists(user.getUsername())) {
         // remove user from the users list
-        bot.users.removeByUsername(user.getUsername())
+        bot.getUsers().removeByUsername(user.getUsername())
+        console.log(user.getUsername() + ' left the channel.')
       }
     }
   })
@@ -91,10 +92,11 @@ export function handleNewPresence(stanza) {
       if (user.getUsername() !== this.client.getUsername()) {
         // emit the new channel join event
         bot.client.emit('lctv:channel:join', user)
+        console.log(user.getUsername() + ' joined the channel.')
         // if not yet in the users list
-        if (!bot.users.exists(user.getUsername())) {
+        if (!bot.getUsers().exists(user.getUsername())) {
           // add user to the users list
-          bot.users.add(user)
+          bot.getUsers().add(user)
         }
       }
     })

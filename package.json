@@ -33,6 +33,7 @@
   "dependencies": {
     "co": "^4.6.0",
     "dotenv": "^1.2.0",
+    "lodash": "^3.10.1",
     "mongodb": "^2.1.2",
     "node-notifier": "^4.4.0",
     "node-persist": "0.0.8",

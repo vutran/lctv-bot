@@ -1,6 +1,7 @@
 'use strict'
 
 import path from 'path'
+import _ from 'lodash'
 import YoutubeMp3Downloader from 'youtube-mp3-downloader'
 import Player from 'player'
 import Song from './Song'
@@ -33,10 +34,12 @@ export default function(bot) {
 
   // load the default playlist
   playlistStore.get('default', (err, result) => {
+    // shuffle playlist items
+    result = _.shuffle(result)
     result.forEach((data) => {
       // create the Song instance
       const song = new Song(data.id, data.name, data.file)
-      // add to playler
+      // add to player
       player.add(song)
     })
     // starts player

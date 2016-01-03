@@ -125,6 +125,10 @@ Sets the value for the given key.
 
 Retrieves a list of mentions.
 
+`getUsers()`
+
+Retrieves a list of online users.
+
 **Content Keys**
 
 |Key|Description|

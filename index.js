@@ -3,21 +3,18 @@
 import Bot from './src/Bot'
 import Client from './src/Client'
 
-// import admin-only plugins
-import SettingsPlugin from './src/Plugins/Commands/SettingsPlugin'
-import SayPlugin from './src/Plugins/Commands/SayPlugin'
-
-// import public plugins
-import EchoPlugin from './src/Plugins/Commands/EchoPlugin'
-import GitHubPlugin from './src/Plugins/Commands/GitHubPlugin'
-import HelpPlugin from './src/Plugins/Commands/HelpPlugin'
-import ProjectPlugin from './src/Plugins/Commands/ProjectPlugin'
-import StatusPlugin from './src/Plugins/Commands/StatusPlugin'
-import ViewsPlugin from './src/Plugins/Commands/ViewsPlugin'
-import WebsitePlugin from './src/Plugins/Commands/WebsitePlugin'
-import PronouncePlugin from './src/Plugins/Commands/PronouncePlugin'
-
-// import other plugins
+// import plugins
+import SettingsPlugin from './src/Plugins/SettingsPlugin'
+import SayPlugin from './src/Plugins/SayPlugin'
+import EchoPlugin from './src/Plugins/EchoPlugin'
+import GitHubPlugin from './src/Plugins/GitHubPlugin'
+import HelpPlugin from './src/Plugins/HelpPlugin'
+import ProjectPlugin from './src/Plugins/ProjectPlugin'
+import StatusPlugin from './src/Plugins/StatusPlugin'
+import ViewsPlugin from './src/Plugins/ViewsPlugin'
+import WebsitePlugin from './src/Plugins/WebsitePlugin'
+import PronouncePlugin from './src/Plugins/PronouncePlugin'
+import WatchTimePlugin from './src/Plugins/WatchTimePlugin'
 import GreetPlugin from './src/Plugins/GreetPlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
 import MentionsPlugin from './src/Plugins/MentionsPlugin'
@@ -62,6 +59,7 @@ new Bot({
     JokesPlugin,
     WolframPlugin,
     AudioPlaylistPlugin,
-    TickerPlugin
+    TickerPlugin,
+    WatchTimePlugin
   ]
 })

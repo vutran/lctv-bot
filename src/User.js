@@ -7,6 +7,7 @@ export default class User {
       username: '',
       voiceName: '',
       views: 0,
+      watchTime: 0,
       role: 'participant',
       status: 'available',
       awayMessage: ''
@@ -17,6 +18,7 @@ export default class User {
     this.setUsername(configs.username)
     this.setVoiceName(configs.voiceName || configs.username)
     this.setViews(configs.views)
+    this.setWatchTime(configs.watchTime)
     this.setRole(configs.role)
     this.setStatus(configs.status)
     this.setAwayMessage(configs.awayMessage)
@@ -48,6 +50,19 @@ export default class User {
 
   getViews() {
     return this.views
+  }
+
+  /**
+   * Sets the number of seconds the user has watched the stream
+   *
+   * @param int watchTime     Time watched in seconds
+   */
+  setWatchTime(watchTime) {
+    this.watchTime = watchTime
+  }
+
+  getWatchTime() {
+    return this.watchTime
   }
 
   /**

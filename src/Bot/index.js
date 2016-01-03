@@ -257,6 +257,10 @@ export default class Bot {
     })
   }
 
+  getUserStore() {
+    return this.userStore
+  }
+
   /**
    * Retrieve a User instance from the given username.
    * Loads stored data if found, otherwise return a new instance.
@@ -276,6 +280,10 @@ export default class Bot {
     this.userStore.get(user.getUsername(), (err, results) => {
       if (util.isObject(results) || util.isArray(results)) {
         data = results
+        // set the views
+        user.setViews(data.views)
+        // set the watch time
+        user.setWatchTime(data.watchTime)
         // set the user's voice-pronounced name
         user.setVoiceName(data.voiceName)
         // sets the away message
@@ -376,6 +384,13 @@ export default class Bot {
    */
   getMentionsFromValue(value) {
     return Utils.getMentions(value)
+  }
+
+  /**
+   * Retrieve the Users collections (online users)
+   */
+  getUsers() {
+    return this.users
   }
 
   /**
