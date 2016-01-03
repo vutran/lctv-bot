@@ -10,7 +10,7 @@ export default function(bot) {
 
   // retrieve the followers URL
   const LCTV_FOLLOWERS_URL = process.env.LCTV_FOLLOWERS_URL
-  const WATCH_INTERVAL = 15 // in seconds
+  const WATCH_INTERVAL = 30 // in seconds
   const NEW_FOLLOWER_MESSAGE = 'Thank you for following me, %user%.'
 
   // set the followers storage device
@@ -21,8 +21,8 @@ export default function(bot) {
   store.get('list', (err, results) => {
     if (util.isArray(results)) {
       users = results
-      init()
     }
+    init()
   })
 
   // create the watcher
@@ -68,6 +68,7 @@ export default function(bot) {
   }
 
   const init = () => {
+    console.log('followers plugin init')
     watcher.run((error, articles) => {
       bot.emit('lctv:follower:run', error, articles)
       if (error) {
@@ -93,7 +94,7 @@ export default function(bot) {
     })
   }
 
-  // poll every 5 seconds...
+  // poll every 30 seconds...
   watcher.set({
     feed: LCTV_FOLLOWERS_URL,
     interval: WATCH_INTERVAL
@@ -107,6 +108,19 @@ export default function(bot) {
   watcher.on('error', (error) => {
     bot.emit('lctv:follower:error', error)
     console.error('%s: %s', 'FollowersPlugin', error)
+  })
+
+  bot.on('lctv:follower:run', (error, articles) => {
+    if (!error) {
+      articles.forEach((item) => {
+        if (!exists(item.title)) {
+          // add to followers user collection
+          add(item.title)
+        }
+      })
+      // save the followers
+      save()
+    }
   })
 
   bot.on('lctv:follower:new', (item) => {

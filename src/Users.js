@@ -9,17 +9,24 @@ export default class Users {
   }
 
   /**
+   * Adds the user to the list.
+   * If the user is already in the list, replaces it instead
+   *
    * @param User user
    */
   add(user) {
-    this.getAll().push(user)
+    if (this.exists(user.getUsername())) {
+      this.replaceByUsername(user.getUsername(), user)
+    } else {
+      this.getAll().push(user)
+    }
   }
 
   /**
    * @param string username
    */
   removeByUsername(username) {
-    let i = this.getIndexByUsername(username)
+    const i = this.getIndexByUsername(username)
     this.getAll().splice(i, 1)
   }
 
@@ -30,7 +37,7 @@ export default class Users {
    * @param User user
    */
   replaceByUsername(username, user) {
-    let i = this.getIndexByUsername(username)
+    const i = this.getIndexByUsername(username)
     // if found
     if (i > -1) {
       // replaces the value at the given index
@@ -42,6 +49,7 @@ export default class Users {
    * Retrieve the index based on the given username
    *
    * @param string username
+   * @return int
    */
   getIndexByUsername(username) {
     let i = -1
@@ -53,10 +61,20 @@ export default class Users {
     return i
   }
 
+  /**
+   * Retrieve the list of users
+   *
+   * @return array
+   */
   getAll() {
     return this.items
   }
 
+  /**
+   * Retrieve the user collection count
+   *
+   * @return int
+   */
   count() {
     return this.getAll().length
   }
@@ -68,7 +86,7 @@ export default class Users {
    * @return bool
    */
   exists(username) {
-    let i = this.getIndexByUsername(username)
+    const i = this.getIndexByUsername(username)
     return (i > -1) ? true : false
   }
 

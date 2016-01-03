@@ -9,6 +9,9 @@ export default function(bot) {
 
   const API_URL = 'http://api.icndb.com/jokes/random'
 
+  /**
+   * Creates a new command "!joke"
+   */
   bot.createCommand('joke', 'Print a random Chuck Norris joke', () => {
     request(API_URL, (error, response, body) => {
       if (!error && response.statusCode === 200) {

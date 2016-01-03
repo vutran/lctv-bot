@@ -1,12 +1,11 @@
 'use strict'
 
 /**
- * Adds a new admin-only comment "!set <key> <value>"
- *
- * Sets a general setting value.
+ * Set and get a general settings value
  */
 export default function(bot) {
 
+  // Create a new admin command "!set"
   bot.createAdminCommand('set', 'Sets a general setting value.', (cmd, args) => {
     // retrieve the key and remove the first value
     const key = args.shift()

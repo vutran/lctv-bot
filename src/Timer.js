@@ -20,7 +20,7 @@ export default class Timer extends EventEmitter {
 
   tick() {
     this.ticks++
-    this.emit('lctv:timer:tick', this.ticks)
+    this.emit('tick', this.ticks)
   }
 
   start() {

@@ -50,7 +50,7 @@ export default class Bot {
 
     // create a timer
     this.timer = new Timer()
-    this.timer.on('lctv:timer:tick', handleTimerTick.bind(this))
+    this.timer.on('tick', handleTimerTick.bind(this))
 
     // create new storage device
     this.store = this.createStore('general')
@@ -280,19 +280,13 @@ export default class Bot {
     this.userStore.get(user.getUsername(), (err, results) => {
       if (util.isObject(results) || util.isArray(results)) {
         data = results
-        // set the views
-        user.setViews(data.views)
-        // set the watch time
-        user.setWatchTime(data.watchTime)
-        // set the user's voice-pronounced name
-        user.setVoiceName(data.voiceName)
-        // sets the away message
-        user.setAwayMessage(data.awayMessage)
+        // Emit a user load event
+        this.emit('lctv:user:retrieve', user, data)
         // set the user's role
         user.setRole(data.role || options.role || 'participant')
       }
       if (typeof callback === 'function') {
-        callback.call(null, user)
+        callback.call(this, user)
       }
     })
   }
@@ -318,7 +312,7 @@ export default class Bot {
     // saves to store
     this.userStore.set(user.getUsername(), user, () => {
       // updates collection
-      this.users.replaceByUsername(user.getUsername(), user)
+      this.getUsers().replaceByUsername(user.getUsername(), user)
     })
   }
 
@@ -388,6 +382,8 @@ export default class Bot {
 
   /**
    * Retrieve the Users collections (online users)
+   *
+   * @return Users
    */
   getUsers() {
     return this.users

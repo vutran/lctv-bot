@@ -126,13 +126,13 @@ export default class Client extends EventEmitter {
    * @link http://xmpp.org/rfcs/rfc3921.html#presence
    * @param string channelJid       The full channel JID (Example: channel@chat.livecoding.tv/username)
    */
-  setPresence(channelJid, options) {
+  setPresence(channelJid, options = {}) {
     const defaults = {
       from: this.getJid(),
       to: channelJid
     }
     options = Object.assign({}, defaults, options)
-    let stanza = new XMPPClient.Stanza('presence', options)
+    const stanza = new XMPPClient.Stanza('presence', options)
     // sends the stanza
     this.send(stanza)
   }
@@ -146,7 +146,7 @@ export default class Client extends EventEmitter {
     // parse the channel jid
     let channelJid = channel + '@chat.' + this.getHost() + '/' + this.getUsername()
     // sets the channel presence
-    this.setPresence(channelJid, { type: "unavailable" })
+    this.setPresence(channelJid)
     // add to joined channels list
     this.joinedChannels.push(channel)
   }
@@ -155,7 +155,7 @@ export default class Client extends EventEmitter {
     // parse the channel jid
     let channelJid = channel + '@chat.' + this.getHost() + '/' + this.getUsername()
     // sets the channel presence
-    this.setPresence(channelJid, true)
+    this.setPresence(channelJid, { type: 'unavailable' })
     // add to joined channels list
     this.joinedChannels.splice(this.joinedChannels.indexOf(channel), 1)
   }

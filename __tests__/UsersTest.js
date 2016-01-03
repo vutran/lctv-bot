@@ -7,9 +7,9 @@ import Users from '../src/Users'
 describe('Users', () => {
 
   let usersList = null
-  const user_0 = new User('user_0')
-  const user_1 = new User('user_1')
-  const user_2 = new User('user_2')
+  const user_0 = new User({username: 'user_0'})
+  const user_1 = new User({username: 'user_1'})
+  const user_2 = new User({username: 'user_2'})
 
   beforeEach( () => {
     // create a new Users instance
@@ -22,20 +22,21 @@ describe('Users', () => {
 
   it('should add a new user', () => {
     // create a new user
-    const user = new User('vutran')
+    const user = new User({username: 'vutran'})
     usersList.add(user)
     expect(usersList.count()).toBe(4)
     expect(usersList.exists('vutran')).toBeTruthy()
   })
 
   it('should remove a user by a username', () => {
+    expect(usersList.count()).toBe(3)
     usersList.removeByUsername('user_0')
     expect(usersList.exists('user_0')).toBeFalsy()
     expect(usersList.count()).toBe(2)
   })
 
   it('should replace a user by a username', () => {
-    const newUser = new User('user_100')
+    const newUser = new User({username: 'user_100'})
     usersList.replaceByUsername('user_0', newUser)
     expect(usersList.exists('user_0')).toBeFalsy()
     expect(usersList.exists('user_100')).toBeTruthy()

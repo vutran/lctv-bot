@@ -5,122 +5,65 @@ export default class User {
   constructor(configs = {}) {
     const defaults = {
       username: '',
-      voiceName: '',
-      views: 0,
-      watchTime: 0,
-      role: 'participant',
-      status: 'available',
-      awayMessage: ''
+      role: 'participant'
     }
     // override defaults
     configs = Object.assign({}, defaults, configs)
     // set properties
     this.setUsername(configs.username)
-    this.setVoiceName(configs.voiceName || configs.username)
-    this.setViews(configs.views)
-    this.setWatchTime(configs.watchTime)
     this.setRole(configs.role)
-    this.setStatus(configs.status)
-    this.setAwayMessage(configs.awayMessage)
   }
 
+  /**
+   * Sets the username
+   *
+   * @param string username
+   */
   setUsername(username) {
     this.username = username
   }
 
+  /**
+   * Gets the username
+   *
+   * @return string
+   */
   getUsername() {
     return this.username
   }
 
-  setVoiceName(voiceName) {
-    this.voiceName = voiceName
-  }
-
-  getVoiceName() {
-    return this.voiceName
-  }
-
+  /**
+   * Retrieve the mention string (Example: "@username")
+   *
+   * @return string
+   */
   getMention() {
     return '@' + this.getUsername()
   }
 
-  setViews(views) {
-    this.views = views
-  }
-
-  getViews() {
-    return this.views
-  }
-
   /**
-   * Sets the number of seconds the user has watched the stream
+   * Sets the user role
    *
-   * @param int watchTime     Time watched in seconds
+   * @param string role
    */
-  setWatchTime(watchTime) {
-    this.watchTime = watchTime
-  }
-
-  getWatchTime() {
-    return this.watchTime
-  }
-
-  /**
-   * Increments the visits counter
-   *
-   * @return void
-   */
-  view() {
-    this.views++
-  }
-
-  setStatus(status) {
-    this.status = status
-  }
-
-  getStatus() {
-    return this.status
-  }
-
-  /**
-   * @param string message
-   */
-  setAwayMessage(message = '') {
-    this.awayMessage = message
-  }
-
-  getAwayMessage() {
-    return this.awayMessage
-  }
-
-  /**
-   * @param string message
-   */
-  setAway(message = '') {
-    this.setStatus('away')
-    this.setAwayMessage(message)
-  }
-
-  setAvailable() {
-    this.setStatus('available')
-  }
-
-  isAway() {
-    return this.getStatus() === 'away' ? true : false
-  }
-
-  isAvailable() {
-    return this.getStatus() === 'available' ? true : false
-  }
-
   setRole(role) {
     this.role = role
   }
 
+  /**
+   * Retrieves the user's role
+   *
+   * @return string
+   */
   getRole() {
     return this.role
   }
 
+  /**
+   * Checks if the user is a moderator
+   *
+   * @return bool
+   */
   isMod() {
     return this.getRole() === 'moderator' ? true : false
   }

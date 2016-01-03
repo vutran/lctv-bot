@@ -14,7 +14,6 @@ import StatusPlugin from './src/Plugins/StatusPlugin'
 import ViewsPlugin from './src/Plugins/ViewsPlugin'
 import WebsitePlugin from './src/Plugins/WebsitePlugin'
 import PronouncePlugin from './src/Plugins/PronouncePlugin'
-import WatchTimePlugin from './src/Plugins/WatchTimePlugin'
 import GreetPlugin from './src/Plugins/GreetPlugin'
 import FollowersPlugin from './src/Plugins/FollowersPlugin'
 import MentionsPlugin from './src/Plugins/MentionsPlugin'
@@ -23,6 +22,7 @@ import JokesPlugin from './src/Plugins/JokesPlugin'
 import WolframPlugin from './src/Plugins/WolframPlugin'
 import AudioPlaylistPlugin from './src/Plugins/AudioPlaylistPlugin'
 import TickerPlugin from './src/Plugins/TickerPlugin'
+import WatchTimePlugin from './src/Plugins/WatchTimePlugin'
 
 // Load env. vars
 require('dotenv').load()

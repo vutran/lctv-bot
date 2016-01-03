@@ -1,6 +1,7 @@
 'use strict'
 
 import co from 'co'
+import moment from 'moment'
 import Users from '../../Users'
 
 /**
@@ -9,12 +10,10 @@ import Users from '../../Users'
  */
 export default function(bot) {
 
-  // create a new store to track top watchers
-  const store = bot.createStore('watch-time')
-  // create a collection of top watchers
-  const topWatchers = new Users()
   // amount of top watchers to display
   const TOP_COUNT = 10
+  const WATCH_DELAY = 5
+  const USERS = new Users()
 
   const checkTop = () => {
     const userStore = bot.getUserStore()
@@ -29,7 +28,8 @@ export default function(bot) {
       }).sort({"value.watchTime": -1}).limit(TOP_COUNT).toArray((err, docs) => {
         if (docs && docs.length) {
           docs.forEach((row) => {
-            console.log(`${row.key}: ${row.value.watchTime}`)
+            const duration = moment.duration(row.value.watchTime, 'seconds').humanize()
+            console.log(`${row.key}: about ${duration}`)
           })
         }
         db.close()
@@ -37,37 +37,52 @@ export default function(bot) {
     })
   }
 
-  bot.createCommand('watch-time', 'Displays how long you\'ve been watching the stream.', (cmd, args, stanza) => {
+  // Create a new command "!watch-time""
+  bot.createAdminCommand('watch-time', 'Displays how long you\'ve been watching the stream.', (cmd, args, stanza) => {
     bot.retrieveUserFromStanza(stanza, (user) => {
-      bot.say(`${user.getUsername()}: You've been watching for ${user.getWatchTime()/60} minutes`)
+      const duration = moment.duration(user.watchTime, 'seconds').humanize()
+      bot.say(`${user.getUsername()}: You've been watching for about ${duration}.`)
     })
   })
 
-  // Create a leaderboard command
-  // bot.createCommand('top-watchers', 'Displays the watch leaderboard', () => {
-  //   checkTop()
-  // })
+  // Create a new command "!top-watchers"
+  bot.createAdminCommand('top-watchers', 'Displays the watch leaderboard', () => {
+    checkTop()
+  })
 
-  // test: checks who is online
-  // bot.createAdminCommand('online', 'Check who is online', () => {
-  //   console.log(bot.getUsers().getAll())
-  // })
+  bot.createAdminCommand('online', 'Displays the list of users online', () => {
+    console.log(bot.getUsers())
+  })
+
+  // Append initial users to the list
+  bot.on('lctv:channel:initial', (user) => {
+    USERS.add(user)
+  })
+
+  // When a user part the channel, remove from the list
+  bot.on('lctv:channel:part', (user) => {
+    USERS.removeByUsername(user.getUsername())
+  })
+
+  // When a user joins the channel, add to the list
+  bot.on('lctv:channel:join', (user) => {
+    USERS.add(user)
+  })
 
   // Increment every minute
   bot.on('lctv:timer:tick', (ticks) => {
-    if (ticks % 60 === 0) {
-      const users = bot.getUsers()
-      console.log(`------ ONLINE USERS: ${users.count()}------`)
-      users.getAll().forEach((user) => {
-        const watchTime = user.getWatchTime() || 0
-        // inc by 60 seconds
-        const newWatchTime = watchTime + 60
+    if (ticks % WATCH_DELAY === 0) {
+      USERS.getAll().forEach((user) => {
         // sets the new watch time and save the user
-        user.setWatchTime(newWatchTime)
+        user.watchTime = (user.watchTime || 0) + WATCH_DELAY
         bot.saveUser(user)
-        console.log(`${user.getUsername()} watch time incremented by 60 seconds. (Total: ${user.getWatchTime()}s)`)
       })
     }
+  })
+
+  // When the user is retrieved, set the watchTime data
+  bot.on('lctv:user:retrieve', (user, data) => {
+    user.watchTime = data.watchTime
   })
 
 }
